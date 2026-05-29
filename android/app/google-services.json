@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "316098402821",
+    "project_id": "diga-411dd",
+    "storage_bucket": "diga-411dd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:316098402821:android:79ca185d90f6c2c3599a6c",
+        "android_client_info": {
+          "package_name": "com.diga.digaapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDDX0ygt4a_BiYcBMjAHW4VzDkdDyMDno"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

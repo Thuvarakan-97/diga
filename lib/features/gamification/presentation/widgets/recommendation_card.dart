@@ -1,4 +1,5 @@
-﻿import 'package:diga/core/theme/app_colors.dart';
+﻿import 'package:diga/features/diga_modules/presentation/models/clinical_domain_data.dart';
+import 'package:diga/core/theme/app_colors.dart';
 import 'package:diga/core/theme/app_spacing.dart';
 import 'package:diga/features/ai_support/domain/models/ai_recommendation.dart';
 import 'package:diga/shared/widgets/diga_surface_card.dart';
@@ -17,6 +18,7 @@ class RecommendationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final domain = ClinicalDomainData.byId(recommendation.nextDomainId);
     return DigaSurfaceCard(
       onTap: onTap,
       padding: const EdgeInsets.all(AppSpacing.md),
@@ -24,12 +26,30 @@ class RecommendationCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('AI-ready recommendation', style: theme.textTheme.labelMedium?.copyWith(color: AppColors.accent, fontWeight: FontWeight.w700)),
-          const SizedBox(height: AppSpacing.xs),
-          Text(recommendation.title, style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800)),
-          const SizedBox(height: AppSpacing.xs),
-          Text(recommendation.reason, style: theme.textTheme.bodySmall),
           const SizedBox(height: AppSpacing.sm),
-          Text('Weak areas: ${recommendation.weakAreas.join(' · ')}', style: theme.textTheme.bodySmall?.copyWith(color: AppColors.textMuted)),
+          Row(
+            children: [
+              CircleAvatar(
+                radius: 18,
+                backgroundColor: AppColors.primaryContainer,
+                child: Icon(domain.icon, size: 18, color: AppColors.primary),
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              Expanded(
+                child: Text(
+                  recommendation.title,
+                  style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.xs),
+          Text(recommendation.reason, style: theme.textTheme.bodySmall?.copyWith(height: 1.45)),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            'Weak areas: ${recommendation.weakAreas.join(' · ')}',
+            style: theme.textTheme.bodySmall?.copyWith(color: AppColors.textMuted),
+          ),
         ],
       ),
     );

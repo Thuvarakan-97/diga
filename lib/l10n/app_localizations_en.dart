@@ -100,6 +100,44 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authErrorGeneric => 'Something went wrong. Please try again.';
 
   @override
+  String get authSignInGoogle => 'Continue with Google';
+
+  @override
+  String get authOrContinueWith => 'or';
+
+  @override
+  String get authErrorEmailInUse =>
+      'This email is already registered. Try signing in instead.';
+
+  @override
+  String get authErrorWrongPassword => 'Incorrect email or password.';
+
+  @override
+  String get authErrorUserNotFound => 'No account found for this email.';
+
+  @override
+  String get authErrorInvalidEmail => 'Please enter a valid email address.';
+
+  @override
+  String get authErrorWeakPassword =>
+      'Password is too weak. Use at least 8 characters.';
+
+  @override
+  String get authErrorTooManyRequests =>
+      'Too many attempts. Please wait and try again.';
+
+  @override
+  String get authErrorNetwork =>
+      'Network error. Check your connection and try again.';
+
+  @override
+  String get authErrorGoogleCancelled => 'Google sign-in was cancelled.';
+
+  @override
+  String get authFirebaseWebSetup =>
+      'Add your Web app ID in Firebase Console → Project settings → Your apps → Web, then paste the appId into lib/firebase_options.dart.';
+
+  @override
   String get navHome => 'Home';
 
   @override
@@ -363,6 +401,126 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get simulationBackToModuleList => 'Back to module list';
+
+  @override
+  String get simulationBackToScenarios => 'Back to scenarios';
+
+  @override
+  String get quizPhaseDiagnoseShort => 'Diagnosis';
+
+  @override
+  String get quizPhasePrescribeShort => 'Prescribing';
+
+  @override
+  String get quizPhaseFollowUpShort => 'Follow-up';
+
+  @override
+  String get simulationDecisionPoint => 'Decision point';
+
+  @override
+  String get simulationCorrectLabel => 'Correct';
+
+  @override
+  String get simulationIncorrectLabel => 'Incorrect';
+
+  @override
+  String get simulationYourAnswerLabel => 'Your answer';
+
+  @override
+  String get simulationCorrectAnswerLabel => 'Correct answer';
+
+  @override
+  String get simulationExplanationLabel => 'Explanation';
+
+  @override
+  String get simulationTeachingPearlLabel => 'Teaching pearl';
+
+  @override
+  String get simulationNoAnswerRecorded => 'No answer recorded';
+
+  @override
+  String get simulationXpEarned => 'XP earned';
+
+  @override
+  String simulationXpEarnedValue(int xp) {
+    return '+$xp XP';
+  }
+
+  @override
+  String get simulationAnswerReviewTitle => 'Answer review';
+
+  @override
+  String get simulationAnswerReviewSubtitle =>
+      'Review your choices, correct answers, and clinical explanations for each phase.';
+
+  @override
+  String get simulationScoreBreakdown => 'Score breakdown';
+
+  @override
+  String get simulationBadgesUnlocked => 'Badges unlocked';
+
+  @override
+  String get simulationUnableToLoadResult => 'Unable to load result summary.';
+
+  @override
+  String simulationScoreAccuracy(int score, int accuracy) {
+    return 'Score $score% | Accuracy $accuracy%';
+  }
+
+  @override
+  String simulationMarks(String marks) {
+    return 'Marks: $marks';
+  }
+
+  @override
+  String get simulationContinueNextDomain => 'Continue in next domain';
+
+  @override
+  String get simulationContinueNextScenario => 'Continue to next scenario';
+
+  @override
+  String simulationExamPassedBanner(int score) {
+    return 'Exam passed! $score%';
+  }
+
+  @override
+  String simulationExamFailedBanner(int score) {
+    return 'Try again! You scored $score%';
+  }
+
+  @override
+  String simulationSuggestedScenario(String title) {
+    return 'Suggested scenario: $title';
+  }
+
+  @override
+  String get simulationExamTitle => 'Domain exam';
+
+  @override
+  String get simulationExamLoading => 'Preparing your questions…';
+
+  @override
+  String simulationQuestionProgress(int current, int total) {
+    return 'Question $current of $total';
+  }
+
+  @override
+  String get simulationPreviousQuestion => 'Previous';
+
+  @override
+  String get simulationNextQuestion => 'Next';
+
+  @override
+  String get simulationSubmitExam => 'Submit exam';
+
+  @override
+  String simulationExamAnsweredCount(int answered, int total) {
+    return '$answered of $total answered';
+  }
+
+  @override
+  String get simulationExamUnansweredWarning =>
+      'Answer all questions before submitting. Use Previous to review skipped items.';
 
   @override
   String get companionTitle => 'Prescription companion';

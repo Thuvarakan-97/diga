@@ -9,6 +9,7 @@ abstract class AiSupportRemoteDataSource {
   Future<AIRecommendation?> fetchRecommendation({
     required int accuracyPercent,
     required int streakDays,
+    String? completedModuleId,
   });
   Future<ConversationScenario?> fetchConversationScenario(String moduleId);
 }

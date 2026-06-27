@@ -9,6 +9,7 @@ import 'package:diga/features/ai_support/domain/models/ai_patient_case.dart';
 import 'package:diga/features/ai_support/domain/models/ai_recommendation.dart';
 import 'package:diga/features/ai_support/domain/models/conversation_scenario.dart';
 import 'package:diga/features/ai_support/domain/repositories/ai_support_repository.dart';
+import 'package:diga/features/diga_modules/presentation/models/clinical_domain_data.dart';
 import 'package:diga/features/gamification/presentation/providers/gamification_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -37,13 +38,16 @@ final aiFeedbackProvider = FutureProvider.family<AIFeedback, String>((ref, modul
   return ref.watch(aiSupportRepositoryProvider).fetchFeedback(moduleId);
 });
 
-final aiRecommendationProvider = FutureProvider<AIRecommendation>((ref) async {
+final aiRecommendationProvider = FutureProvider.family<AIRecommendation, String>((ref, completedModuleId) async {
   if (!ref.watch(aiSupportEnabledProvider)) {
-    return const AIRecommendation(
-      nextModuleId: 'kalmeda',
-      title: 'AI recommendations are currently disabled',
-      reason: 'This environment has AI support turned off via feature flag.',
-      weakAreas: ['Feature disabled'],
+    final nextDomain = ClinicalDomainData.byId(
+      ClinicalDomainData.suggestNextDomain(ClinicalDomainData.mapModuleToDomain(completedModuleId)),
+    );
+    return AIRecommendation(
+      nextDomainId: nextDomain.id,
+      title: 'Recommended next domain: ${nextDomain.name}',
+      reason: 'AI recommendations are currently disabled in this environment.',
+      weakAreas: const ['Feature disabled'],
       suggestedDifficulty: 'Standard',
     );
   }
@@ -51,6 +55,7 @@ final aiRecommendationProvider = FutureProvider<AIRecommendation>((ref) async {
   return ref.watch(aiSupportRepositoryProvider).fetchRecommendation(
         accuracyPercent: profile.accuracyPercent,
         streakDays: profile.streak.activeDays,
+        completedModuleId: completedModuleId,
       );
 });
 

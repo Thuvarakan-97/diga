@@ -36,6 +36,17 @@
   },
   "authDemoBanner": "Demo-Modus (kein Firebase auf diesem Gerät).",
   "authErrorGeneric": "Etwas ist schiefgelaufen. Bitte erneut versuchen.",
+  "authSignInGoogle": "Mit Google fortfahren",
+  "authOrContinueWith": "oder",
+  "authErrorEmailInUse": "Diese E-Mail ist bereits registriert. Bitte anmelden.",
+  "authErrorWrongPassword": "E-Mail oder Passwort ist falsch.",
+  "authErrorUserNotFound": "Kein Konto mit dieser E-Mail gefunden.",
+  "authErrorInvalidEmail": "Bitte eine gültige E-Mail-Adresse eingeben.",
+  "authErrorWeakPassword": "Passwort zu schwach. Mindestens 8 Zeichen verwenden.",
+  "authErrorTooManyRequests": "Zu viele Versuche. Bitte warten und erneut versuchen.",
+  "authErrorNetwork": "Netzwerkfehler. Verbindung prüfen und erneut versuchen.",
+  "authErrorGoogleCancelled": "Google-Anmeldung abgebrochen.",
+  "authFirebaseWebSetup": "Web-App-ID in der Firebase Console hinzufügen (Projekteinstellungen → Ihre Apps → Web) und appId in lib/firebase_options.dart eintragen.",
   "navHome": "Start",
   "navModules": "Module",
   "navCompanion": "Begleitung",
@@ -140,6 +151,105 @@
   "simulationToResult": "Zum Ergebnis",
   "simulationScorePlaceholder": "Score / Feedback (Platzhalter)",
   "simulationBackToModuleList": "Zur Modulliste",
+  "simulationBackToScenarios": "Zur Szenarioübersicht",
+  "quizPhaseDiagnoseShort": "Diagnose",
+  "quizPhasePrescribeShort": "Verordnung",
+  "quizPhaseFollowUpShort": "Verlauf",
+  "simulationDecisionPoint": "Entscheidungspunkt",
+  "simulationCorrectLabel": "Richtig",
+  "simulationIncorrectLabel": "Falsch",
+  "simulationYourAnswerLabel": "Ihre Antwort",
+  "simulationCorrectAnswerLabel": "Richtige Antwort",
+  "simulationExplanationLabel": "Erklärung",
+  "simulationTeachingPearlLabel": "Klinischer Merksatz",
+  "simulationNoAnswerRecorded": "Keine Antwort erfasst",
+  "simulationXpEarned": "XP verdient",
+  "simulationXpEarnedValue": "+{xp} XP",
+  "@simulationXpEarnedValue": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      }
+    }
+  },
+  "simulationAnswerReviewTitle": "Antwortenüberprüfung",
+  "simulationAnswerReviewSubtitle": "Überprüfen Sie Ihre Entscheidungen, richtige Antworten und klinische Erklärungen für jede Phase.",
+  "simulationScoreBreakdown": "Punkteaufschlüsselung",
+  "simulationBadgesUnlocked": "Freigeschaltete Abzeichen",
+  "simulationUnableToLoadResult": "Ergebniszusammenfassung konnte nicht geladen werden.",
+  "simulationScoreAccuracy": "Punkte {score}% | Genauigkeit {accuracy}%",
+  "@simulationScoreAccuracy": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      },
+      "accuracy": {
+        "type": "int"
+      }
+    }
+  },
+  "simulationMarks": "Punkte: {marks}",
+  "@simulationMarks": {
+    "placeholders": {
+      "marks": {
+        "type": "String"
+      }
+    }
+  },
+  "simulationContinueNextDomain": "Weiter im nächsten Bereich",
+  "simulationContinueNextScenario": "Weiter zum nächsten Szenario",
+  "simulationExamPassedBanner": "Prüfung bestanden! {score} %",
+  "@simulationExamPassedBanner": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    }
+  },
+  "simulationExamFailedBanner": "Versuche es erneut! {score} % erreicht",
+  "@simulationExamFailedBanner": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    }
+  },
+  "simulationSuggestedScenario": "Vorgeschlagenes Szenario: {title}",
+  "@simulationSuggestedScenario": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "simulationExamTitle": "Bereichsprüfung",
+  "simulationExamLoading": "Fragen werden vorbereitet…",
+  "simulationQuestionProgress": "Frage {current} von {total}",
+  "@simulationQuestionProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "simulationPreviousQuestion": "Zurück",
+  "simulationNextQuestion": "Weiter",
+  "simulationSubmitExam": "Prüfung abgeben",
+  "simulationExamAnsweredCount": "{answered} von {total} beantwortet",
+  "@simulationExamAnsweredCount": {
+    "placeholders": {
+      "answered": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "simulationExamUnansweredWarning": "Bitte alle Fragen beantworten, bevor Sie abgeben. Nutzen Sie Zurück für übersprungene Fragen.",
   "companionTitle": "Rezeptbegleitung",
   "companionPageTitle": "Rezeptbegleitung",
   "companionPageSubtitle": "Klinische Referenz zur DiGA‑Verordnung",

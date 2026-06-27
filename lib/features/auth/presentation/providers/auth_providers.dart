@@ -9,6 +9,9 @@ import '../../domain/repositories/auth_repository.dart';
 /// Local demo session when Firebase is unavailable (desktop dev) or for quick UI testing.
 final demoModeProvider = StateProvider<bool>((ref) => false);
 
+/// Whether Firebase was initialized on this platform.
+final firebaseReadyProvider = Provider<bool>((ref) => Firebase.apps.isNotEmpty);
+
 /// Firebase user stream; yields `null` when Firebase is not initialized.
 final firebaseAuthStateProvider = StreamProvider<User?>((ref) async* {
   if (Firebase.apps.isEmpty) {
@@ -20,11 +23,21 @@ final firebaseAuthStateProvider = StreamProvider<User?>((ref) async* {
   yield* auth.authStateChanges();
 });
 
-final sessionAuthedProvider = Provider<bool>((ref) {
-  if (ref.watch(demoModeProvider)) return true;
-  if (Firebase.apps.isEmpty) return false;
+enum AuthSessionStatus { loading, authed, guest }
+
+final authSessionStatusProvider = Provider<AuthSessionStatus>((ref) {
+  if (ref.watch(demoModeProvider)) return AuthSessionStatus.authed;
+  if (Firebase.apps.isEmpty) return AuthSessionStatus.guest;
   final auth = ref.watch(firebaseAuthStateProvider);
-  return auth.maybeWhen(data: (u) => u != null, orElse: () => false);
+  return auth.when(
+    loading: () => AuthSessionStatus.loading,
+    data: (user) => user != null ? AuthSessionStatus.authed : AuthSessionStatus.guest,
+    error: (error, stackTrace) => AuthSessionStatus.guest,
+  );
+});
+
+final sessionAuthedProvider = Provider<bool>((ref) {
+  return ref.watch(authSessionStatusProvider) == AuthSessionStatus.authed;
 });
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
@@ -51,6 +64,11 @@ class _NoopAuthRepository implements AuthRepository {
 
   @override
   Future<void> signInWithEmailAndPassword({required String email, required String password}) async {
+    throw UnsupportedError('Firebase is not available on this platform.');
+  }
+
+  @override
+  Future<void> signInWithGoogle() async {
     throw UnsupportedError('Firebase is not available on this platform.');
   }
 

@@ -272,6 +272,72 @@ abstract class AppLocalizations {
   /// **'Something went wrong. Please try again.'**
   String get authErrorGeneric;
 
+  /// No description provided for @authSignInGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get authSignInGoogle;
+
+  /// No description provided for @authOrContinueWith.
+  ///
+  /// In en, this message translates to:
+  /// **'or'**
+  String get authOrContinueWith;
+
+  /// No description provided for @authErrorEmailInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'This email is already registered. Try signing in instead.'**
+  String get authErrorEmailInUse;
+
+  /// No description provided for @authErrorWrongPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect email or password.'**
+  String get authErrorWrongPassword;
+
+  /// No description provided for @authErrorUserNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No account found for this email.'**
+  String get authErrorUserNotFound;
+
+  /// No description provided for @authErrorInvalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address.'**
+  String get authErrorInvalidEmail;
+
+  /// No description provided for @authErrorWeakPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password is too weak. Use at least 8 characters.'**
+  String get authErrorWeakPassword;
+
+  /// No description provided for @authErrorTooManyRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Please wait and try again.'**
+  String get authErrorTooManyRequests;
+
+  /// No description provided for @authErrorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'Network error. Check your connection and try again.'**
+  String get authErrorNetwork;
+
+  /// No description provided for @authErrorGoogleCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Google sign-in was cancelled.'**
+  String get authErrorGoogleCancelled;
+
+  /// No description provided for @authFirebaseWebSetup.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your Web app ID in Firebase Console → Project settings → Your apps → Web, then paste the appId into lib/firebase_options.dart.'**
+  String get authFirebaseWebSetup;
+
   /// No description provided for @navHome.
   ///
   /// In en, this message translates to:
@@ -769,6 +835,210 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Back to module list'**
   String get simulationBackToModuleList;
+
+  /// No description provided for @simulationBackToScenarios.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to scenarios'**
+  String get simulationBackToScenarios;
+
+  /// No description provided for @quizPhaseDiagnoseShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Diagnosis'**
+  String get quizPhaseDiagnoseShort;
+
+  /// No description provided for @quizPhasePrescribeShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Prescribing'**
+  String get quizPhasePrescribeShort;
+
+  /// No description provided for @quizPhaseFollowUpShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow-up'**
+  String get quizPhaseFollowUpShort;
+
+  /// No description provided for @simulationDecisionPoint.
+  ///
+  /// In en, this message translates to:
+  /// **'Decision point'**
+  String get simulationDecisionPoint;
+
+  /// No description provided for @simulationCorrectLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct'**
+  String get simulationCorrectLabel;
+
+  /// No description provided for @simulationIncorrectLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect'**
+  String get simulationIncorrectLabel;
+
+  /// No description provided for @simulationYourAnswerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Your answer'**
+  String get simulationYourAnswerLabel;
+
+  /// No description provided for @simulationCorrectAnswerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct answer'**
+  String get simulationCorrectAnswerLabel;
+
+  /// No description provided for @simulationExplanationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Explanation'**
+  String get simulationExplanationLabel;
+
+  /// No description provided for @simulationTeachingPearlLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Teaching pearl'**
+  String get simulationTeachingPearlLabel;
+
+  /// No description provided for @simulationNoAnswerRecorded.
+  ///
+  /// In en, this message translates to:
+  /// **'No answer recorded'**
+  String get simulationNoAnswerRecorded;
+
+  /// No description provided for @simulationXpEarned.
+  ///
+  /// In en, this message translates to:
+  /// **'XP earned'**
+  String get simulationXpEarned;
+
+  /// No description provided for @simulationXpEarnedValue.
+  ///
+  /// In en, this message translates to:
+  /// **'+{xp} XP'**
+  String simulationXpEarnedValue(int xp);
+
+  /// No description provided for @simulationAnswerReviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Answer review'**
+  String get simulationAnswerReviewTitle;
+
+  /// No description provided for @simulationAnswerReviewSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review your choices, correct answers, and clinical explanations for each phase.'**
+  String get simulationAnswerReviewSubtitle;
+
+  /// No description provided for @simulationScoreBreakdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Score breakdown'**
+  String get simulationScoreBreakdown;
+
+  /// No description provided for @simulationBadgesUnlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Badges unlocked'**
+  String get simulationBadgesUnlocked;
+
+  /// No description provided for @simulationUnableToLoadResult.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load result summary.'**
+  String get simulationUnableToLoadResult;
+
+  /// No description provided for @simulationScoreAccuracy.
+  ///
+  /// In en, this message translates to:
+  /// **'Score {score}% | Accuracy {accuracy}%'**
+  String simulationScoreAccuracy(int score, int accuracy);
+
+  /// No description provided for @simulationMarks.
+  ///
+  /// In en, this message translates to:
+  /// **'Marks: {marks}'**
+  String simulationMarks(String marks);
+
+  /// No description provided for @simulationContinueNextDomain.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue in next domain'**
+  String get simulationContinueNextDomain;
+
+  /// No description provided for @simulationContinueNextScenario.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue to next scenario'**
+  String get simulationContinueNextScenario;
+
+  /// No description provided for @simulationExamPassedBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'Exam passed! {score}%'**
+  String simulationExamPassedBanner(int score);
+
+  /// No description provided for @simulationExamFailedBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again! You scored {score}%'**
+  String simulationExamFailedBanner(int score);
+
+  /// No description provided for @simulationSuggestedScenario.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested scenario: {title}'**
+  String simulationSuggestedScenario(String title);
+
+  /// No description provided for @simulationExamTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Domain exam'**
+  String get simulationExamTitle;
+
+  /// No description provided for @simulationExamLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing your questions…'**
+  String get simulationExamLoading;
+
+  /// No description provided for @simulationQuestionProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Question {current} of {total}'**
+  String simulationQuestionProgress(int current, int total);
+
+  /// No description provided for @simulationPreviousQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous'**
+  String get simulationPreviousQuestion;
+
+  /// No description provided for @simulationNextQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get simulationNextQuestion;
+
+  /// No description provided for @simulationSubmitExam.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit exam'**
+  String get simulationSubmitExam;
+
+  /// No description provided for @simulationExamAnsweredCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{answered} of {total} answered'**
+  String simulationExamAnsweredCount(int answered, int total);
+
+  /// No description provided for @simulationExamUnansweredWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Answer all questions before submitting. Use Previous to review skipped items.'**
+  String get simulationExamUnansweredWarning;
 
   /// No description provided for @companionTitle.
   ///

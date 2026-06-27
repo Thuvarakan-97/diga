@@ -19,7 +19,11 @@ abstract final class AppRoutes {
 
   static String moduleDetail(String moduleId) => '/modules/$moduleId';
 
-  static String simulationDiagnose(String moduleId) => '/modules/$moduleId/simulation/diagnose';
+  static String simulationDiagnose(String moduleId, {String? scenarioId}) {
+    final base = '/modules/$moduleId/simulation/diagnose';
+    if (scenarioId == null || scenarioId.isEmpty) return base;
+    return '$base?scenarioId=$scenarioId';
+  }
 
   static String simulationPrescribe(String moduleId) => '/modules/$moduleId/simulation/prescribe';
 

@@ -1,4 +1,6 @@
 import 'package:diga/core/validators/input_validators.dart';
+import 'package:diga/features/auth/presentation/utils/auth_error_messages.dart';
+import 'package:diga/features/auth/presentation/widgets/google_sign_in_button.dart';
 import 'package:diga/shared/extensions/context_l10n.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -32,26 +34,16 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     super.dispose();
   }
 
-  Future<void> _submit() async {
+  Future<void> _runAuth(Future<void> Function() action) async {
     final l10n = context.l10n;
-    if (!_formKey.currentState!.validate()) return;
-    final mismatch = InputValidators.passwordMatch(_password.text, _confirm.text, l10n);
-    if (mismatch != null) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(mismatch)));
-      return;
-    }
     setState(() => _busy = true);
     try {
-      await ref.read(authRepositoryProvider).registerWithEmailAndPassword(
-            email: _email.text,
-            password: _password.text,
-            displayName: _displayName.text.trim().isEmpty ? null : _displayName.text.trim(),
-          );
+      await action();
       if (mounted) context.go(AppRoutes.home);
     } on FirebaseAuthException catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.message ?? l10n.authErrorGeneric)),
+          SnackBar(content: Text(authErrorMessage(e, l10n))),
         );
       }
     } on UnsupportedError catch (_) {
@@ -67,9 +59,32 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     }
   }
 
+  Future<void> _submit() async {
+    final l10n = context.l10n;
+    if (!_formKey.currentState!.validate()) return;
+    final mismatch = InputValidators.passwordMatch(_password.text, _confirm.text, l10n);
+    if (mismatch != null) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(mismatch)));
+      return;
+    }
+    await _runAuth(
+      () => ref.read(authRepositoryProvider).registerWithEmailAndPassword(
+            email: _email.text,
+            password: _password.text,
+            displayName: _displayName.text.trim().isEmpty ? null : _displayName.text.trim(),
+          ),
+    );
+  }
+
+  Future<void> _signInWithGoogle() async {
+    await _runAuth(() => ref.read(authRepositoryProvider).signInWithGoogle());
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final firebaseReady = ref.watch(firebaseReadyProvider);
+
     return Scaffold(
       appBar: AppBar(title: Text(l10n.authRegisterTitle)),
       body: AbsorbPointer(
@@ -81,6 +96,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                if (firebaseReady) ...[
+                  GoogleSignInButton(onPressed: _signInWithGoogle, busy: _busy),
+                  const SizedBox(height: 16),
+                  AuthDividerLabel(label: l10n.authOrContinueWith),
+                  const SizedBox(height: 16),
+                ],
                 TextFormField(
                   controller: _displayName,
                   decoration: InputDecoration(labelText: l10n.authDisplayNameLabel),

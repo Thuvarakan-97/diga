@@ -4,6 +4,7 @@ import 'package:diga/core/theme/app_spacing.dart';
 import 'package:diga/features/simulation/domain/models/simulation_question.dart';
 import 'package:diga/features/simulation/domain/models/simulation_quiz_phase.dart';
 import 'package:diga/features/simulation/presentation/widgets/clinical_scenario_panel.dart';
+import 'package:diga/shared/extensions/context_l10n.dart';
 import 'package:diga/shared/widgets/diga_surface_card.dart';
 import 'package:flutter/material.dart';
 
@@ -13,13 +14,16 @@ class QuestionAnswerReviewCard extends StatelessWidget {
     super.key,
     required this.question,
     required this.selectedIndex,
+    this.questionNumber,
   });
 
   final SimulationQuestion question;
   final int? selectedIndex;
+  final int? questionNumber;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final theme = Theme.of(context);
     final answered = selectedIndex != null;
     final correct = answered && question.isCorrect(selectedIndex!);
@@ -27,7 +31,7 @@ class QuestionAnswerReviewCard extends StatelessWidget {
         '${question.options[question.correctIndex]}';
     final yourLabel = answered
         ? '${String.fromCharCode(65 + selectedIndex!)}. ${question.options[selectedIndex!]}'
-        : 'No answer recorded';
+        : l10n.simulationNoAnswerRecorded;
 
     return DigaSurfaceCard(
       padding: const EdgeInsets.all(AppSpacing.md),
@@ -36,6 +40,16 @@ class QuestionAnswerReviewCard extends StatelessWidget {
         children: [
           Row(
             children: [
+              if (questionNumber != null) ...[
+                Text(
+                  '#$questionNumber',
+                  style: theme.textTheme.labelMedium?.copyWith(
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.textMuted,
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.sm),
+              ],
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xxs),
                 decoration: BoxDecoration(
@@ -43,7 +57,7 @@ class QuestionAnswerReviewCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(AppRadii.pill),
                 ),
                 child: Text(
-                  question.phase.displayLabel,
+                  question.phase.displayLabel(l10n),
                   style: theme.textTheme.labelSmall?.copyWith(
                     color: AppColors.primary,
                     fontWeight: FontWeight.w700,

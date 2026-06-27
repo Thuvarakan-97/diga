@@ -6,7 +6,11 @@ import '../models/conversation_scenario.dart';
 abstract class AISupportRepository {
   Future<List<AIPatientCase>> fetchPatientCases(String moduleId);
   Future<AIFeedback> fetchFeedback(String moduleId);
-  Future<AIRecommendation> fetchRecommendation({required int accuracyPercent, required int streakDays});
+  Future<AIRecommendation> fetchRecommendation({
+    required int accuracyPercent,
+    required int streakDays,
+    String? completedModuleId,
+  });
   Future<ConversationScenario> fetchConversationScenario(String moduleId);
 }
 

@@ -1,11 +1,15 @@
 import 'package:diga/core/validators/input_validators.dart';
+import 'package:diga/features/auth/presentation/utils/auth_error_messages.dart';
+import 'package:diga/features/auth/presentation/widgets/google_sign_in_button.dart';
 import 'package:diga/shared/extensions/context_l10n.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/app_routes.dart';
+import '../../../../firebase_options.dart';
 import '../providers/auth_providers.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -28,20 +32,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     super.dispose();
   }
 
-  Future<void> _submit() async {
+  Future<void> _runAuth(Future<void> Function() action) async {
     final l10n = context.l10n;
-    if (!_formKey.currentState!.validate()) return;
     setState(() => _busy = true);
     try {
-      await ref.read(authRepositoryProvider).signInWithEmailAndPassword(
-            email: _email.text,
-            password: _password.text,
-          );
+      await action();
       if (mounted) context.go(AppRoutes.home);
     } on FirebaseAuthException catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.message ?? l10n.authErrorGeneric)),
+          SnackBar(content: Text(authErrorMessage(e, l10n))),
         );
       }
     } on UnsupportedError catch (_) {
@@ -55,6 +55,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     } finally {
       if (mounted) setState(() => _busy = false);
     }
+  }
+
+  Future<void> _submit() async {
+    if (!_formKey.currentState!.validate()) return;
+    await _runAuth(
+      () => ref.read(authRepositoryProvider).signInWithEmailAndPassword(
+            email: _email.text,
+            password: _password.text,
+          ),
+    );
+  }
+
+  Future<void> _signInWithGoogle() async {
+    await _runAuth(() => ref.read(authRepositoryProvider).signInWithGoogle());
   }
 
   void _demoMode() {
@@ -99,7 +113,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     } on FirebaseAuthException catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.message ?? l10n.authErrorGeneric)),
+          SnackBar(content: Text(authErrorMessage(e, l10n))),
         );
       }
     } on UnsupportedError catch (_) {
@@ -116,6 +130,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final firebaseReady = ref.watch(firebaseReadyProvider);
+    final showDemo = !firebaseReady && kDebugMode;
+
     return Scaffold(
       appBar: AppBar(title: Text(l10n.loginTitle)),
       body: AbsorbPointer(
@@ -138,7 +155,28 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   textAlign: TextAlign.center,
                   style: const TextStyle(color: Colors.black54),
                 ),
-                const SizedBox(height: 32),
+                if (kIsWeb && !firebaseReady) ...[
+                  const SizedBox(height: 16),
+                  Card(
+                    color: Colors.amber.shade50,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Text(
+                        DefaultFirebaseOptions.isWebConfigured
+                            ? l10n.authErrorGeneric
+                            : l10n.authFirebaseWebSetup,
+                        style: const TextStyle(fontSize: 13, height: 1.4),
+                      ),
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 24),
+                if (firebaseReady) ...[
+                  GoogleSignInButton(onPressed: _signInWithGoogle, busy: _busy),
+                  const SizedBox(height: 16),
+                  AuthDividerLabel(label: l10n.authOrContinueWith),
+                  const SizedBox(height: 16),
+                ],
                 TextFormField(
                   controller: _email,
                   decoration: InputDecoration(labelText: l10n.authEmailLabel),
@@ -168,11 +206,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   onPressed: _busy ? null : () => context.push(AppRoutes.register),
                   child: Text(l10n.authNoAccountLink),
                 ),
-                const SizedBox(height: 24),
-                OutlinedButton(
-                  onPressed: _busy ? null : _demoMode,
-                  child: Text(l10n.demoContinueButton),
-                ),
+                if (showDemo) ...[
+                  const SizedBox(height: 24),
+                  OutlinedButton(
+                    onPressed: _busy ? null : _demoMode,
+                    child: Text(l10n.demoContinueButton),
+                  ),
+                ],
                 if (_busy) const Padding(padding: EdgeInsets.only(top: 24), child: Center(child: CircularProgressIndicator())),
               ],
             ),

@@ -1,5 +1,6 @@
 ﻿import 'dart:math';
 
+import 'package:diga/features/diga_modules/presentation/models/clinical_domain_data.dart';
 import 'package:diga/features/gamification/domain/models/achievement.dart';
 import 'package:diga/features/gamification/domain/models/badge.dart';
 import 'package:diga/features/gamification/domain/models/gamification_profile.dart';
@@ -65,6 +66,9 @@ class MockGamificationRepository implements GamificationRepository {
     final accuracy = 90;
     final xp = _calculateXp(scorePercent: score, firstAttempt: true, streakDays: _profile.streak.activeDays);
     final unlocked = _profile.badges.where((b) => b.unlocked).take(2).toList(growable: false);
+    final currentDomain = ClinicalDomainData.domainForModule(moduleId);
+    final nextDomainId = ClinicalDomainData.suggestNextDomain(currentDomain.id);
+    final nextDomain = ClinicalDomainData.byId(nextDomainId);
     return SimulationRewardPreview(
       moduleId: moduleId,
       scorePercent: score,
@@ -73,8 +77,10 @@ class MockGamificationRepository implements GamificationRepository {
       xpEarned: xp,
       unlockedBadges: unlocked,
       encouragement: 'Excellent clinical reasoning. Keep this pace to reach the next level quickly.',
-      nextModuleId: 'vivira',
-      nextModuleTitle: 'Vivira (demo)',
+      nextDomainId: nextDomainId,
+      nextDomainName: nextDomain.name,
+      nextModuleId: nextDomain.scenarios.first.moduleId,
+      nextModuleTitle: nextDomain.scenarios.first.title,
       latestAchievement: _profile.recentAchievements.firstOrNull,
     );
   }

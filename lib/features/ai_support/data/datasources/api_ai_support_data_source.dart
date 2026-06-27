@@ -17,6 +17,7 @@ class ApiAiSupportDataSource implements AiSupportRemoteDataSource {
   Future<AIRecommendation?> fetchRecommendation({
     required int accuracyPercent,
     required int streakDays,
+    String? completedModuleId,
   }) async =>
       null;
 

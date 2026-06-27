@@ -10,8 +10,10 @@ class SimulationRewardPreview {
     required this.xpEarned,
     required this.unlockedBadges,
     required this.encouragement,
-    required this.nextModuleId,
-    required this.nextModuleTitle,
+    required this.nextDomainId,
+    required this.nextDomainName,
+    this.nextModuleId,
+    this.nextModuleTitle,
     this.latestAchievement,
   });
 
@@ -22,8 +24,10 @@ class SimulationRewardPreview {
   final int xpEarned;
   final List<Badge> unlockedBadges;
   final String encouragement;
-  final String nextModuleId;
-  final String nextModuleTitle;
+  final String nextDomainId;
+  final String nextDomainName;
+  final String? nextModuleId;
+  final String? nextModuleTitle;
   final Achievement? latestAchievement;
 }
 

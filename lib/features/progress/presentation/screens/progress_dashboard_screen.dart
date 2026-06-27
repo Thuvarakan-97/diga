@@ -1,33 +1,20 @@
 ﻿import 'package:diga/core/constants/app_routes.dart';
 import 'package:diga/core/theme/app_colors.dart';
+import 'package:diga/core/theme/app_radii.dart';
 import 'package:diga/core/theme/app_spacing.dart';
-import 'package:diga/features/ai_support/presentation/providers/ai_support_providers.dart';
-import 'package:diga/features/gamification/presentation/providers/gamification_providers.dart';
-import 'package:diga/features/gamification/presentation/widgets/badge_card.dart';
-import 'package:diga/features/gamification/presentation/widgets/level_progress_card.dart';
-import 'package:diga/features/gamification/presentation/widgets/recommendation_card.dart';
-import 'package:diga/features/gamification/presentation/widgets/streak_card.dart';
-import 'package:diga/features/gamification/presentation/widgets/xp_summary_card.dart';
+import 'package:diga/features/diga_modules/presentation/models/clinical_domain_data.dart';
 import 'package:diga/features/progress/presentation/data/progress_mock_data.dart';
-import 'package:diga/features/progress/presentation/widgets/learning_trend_panel.dart';
-import 'package:diga/l10n/app_localizations.dart';
 import 'package:diga/shared/extensions/context_l10n.dart';
 import 'package:diga/shared/widgets/app_page_header.dart';
 import 'package:diga/shared/widgets/empty_state_view.dart';
-import 'package:diga/shared/widgets/module_performance_card.dart';
-import 'package:diga/shared/widgets/progress_overview_card.dart';
-import 'package:diga/shared/widgets/recent_result_tile.dart';
-import 'package:diga/shared/widgets/section_header.dart';
-import 'package:diga/shared/widgets/summary_stat_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class ProgressDashboardScreen extends ConsumerWidget {
+class ProgressDashboardScreen extends StatelessWidget {
   const ProgressDashboardScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final l10n = context.l10n;
     final snapshot = ProgressMockData.build(l10n);
 
@@ -54,170 +41,239 @@ class ProgressDashboardScreen extends ConsumerWidget {
   }
 }
 
-class _ProgressBody extends ConsumerWidget {
+class _ProgressBody extends StatelessWidget {
   const _ProgressBody({required this.snapshot});
 
   final ProgressSnapshot snapshot;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = context.l10n;
-    final gamification = ref.watch(gamificationProfileProvider).valueOrNull;
-    final recommendation = ref.watch(aiRecommendationProvider).valueOrNull;
+  Widget build(BuildContext context) {
+    final domains = ClinicalDomainData.domains;
 
     return ListView(
-      padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.pageHorizontal,
+        0,
+        AppSpacing.pageHorizontal,
+        AppSpacing.xxl,
+      ),
       children: [
-        AppPageHeader(title: l10n.progressTitle, subtitle: l10n.progressPageSubtitle),
-        if (gamification != null) ...[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.pageHorizontal),
-            child: Row(
-              children: [
-                Expanded(child: XPSummaryCard(totalXp: gamification.xp.totalXp, weeklyGain: gamification.streak.sessionsThisWeek * 60)),
-                const SizedBox(width: AppSpacing.sm),
-                Expanded(child: StreakCard(streak: gamification.streak)),
-              ],
+        AppPageHeader(
+          title: context.l10n.progressTitle,
+          subtitle: 'Track domain mastery and scenario outcomes',
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: _KpiCard(
+                value: '${snapshot.modulesCompleted}/${snapshot.modulesTotal}',
+                label: 'Modules done',
+                sub: 'Target: complete all core tracks',
+              ),
             ),
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.pageHorizontal),
-            child: LevelProgressCard(level: gamification.level),
-          ),
-          const SizedBox(height: AppSpacing.sectionGap),
-          SectionHeader(title: 'Earned badges'),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.pageHorizontal),
-            child: Column(
-              children: [
-                for (final badge in gamification.badges.where((e) => e.unlocked)) ...[
-                  BadgeCard(badge: badge),
-                  const SizedBox(height: AppSpacing.sm),
-                ],
-              ],
-            ),
-          ),
-          if (recommendation != null) ...[
-            const SizedBox(height: AppSpacing.md),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.pageHorizontal),
-              child: RecommendationCard(
-                recommendation: recommendation,
-                onTap: () => context.push(AppRoutes.moduleDetail(recommendation.nextModuleId)),
+            const SizedBox(width: AppSpacing.sm),
+            Expanded(
+              child: _KpiCard(
+                value: snapshot.avgScoreDisplay,
+                label: 'Average score',
+                sub: '${snapshot.weeklySessionsDisplay} sessions this week',
               ),
             ),
           ],
-          const SizedBox(height: AppSpacing.sectionGap),
+        ),
+        const SizedBox(height: AppSpacing.md),
+        _DomainProgressPanel(domains: domains),
+        const SizedBox(height: AppSpacing.md),
+        Text(
+          'Recent outcomes',
+          style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800),
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        for (final r in snapshot.recent) ...[
+          _RecentOutcomeCard(
+            title: r.title,
+            subtitle: r.condition,
+            score: r.score,
+            status: r.completed ? 'Completed' : 'In progress',
+            onTap: () => context.push(AppRoutes.moduleDetail(r.moduleId)),
+          ),
+          const SizedBox(height: AppSpacing.sm),
         ],
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.pageHorizontal),
-          child: LayoutBuilder(
-            builder: (context, c) {
-              final wide = c.maxWidth >= 840;
-              final cross = wide ? 4 : 2;
-              final aspect = wide ? 1.22 : 1.38;
-              return GridView.count(
-                crossAxisCount: cross,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisSpacing: AppSpacing.sm,
-                mainAxisSpacing: AppSpacing.sm,
-                childAspectRatio: aspect,
-                children: [
-                  SummaryStatCard(icon: Icons.check_circle_outline_rounded, label: l10n.progressStatModulesDone, value: '${snapshot.modulesCompleted}', iconBackground: AppColors.successSoft, iconColor: AppColors.success),
-                  SummaryStatCard(icon: Icons.stacked_line_chart_rounded, label: l10n.progressStatAvgScore, value: snapshot.avgScoreDisplay),
-                  SummaryStatCard(icon: Icons.center_focus_strong_rounded, label: l10n.progressStatAccuracy, value: snapshot.accuracyDisplay, iconBackground: AppColors.accentSoft.withValues(alpha: 0.5), iconColor: AppColors.accent),
-                  SummaryStatCard(icon: Icons.calendar_view_week_rounded, label: l10n.progressStatWeeklySessions, value: snapshot.weeklySessionsDisplay, iconBackground: AppColors.warningSoft, iconColor: AppColors.warning),
-                ],
-              );
-            },
-          ),
+        const SizedBox(height: AppSpacing.md),
+        Text(
+          'Performance by module',
+          style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800),
         ),
-        const SizedBox(height: AppSpacing.lg),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.pageHorizontal),
-          child: ProgressOverviewCard(
-            title: l10n.progressOverviewTitle,
-            fractionLabel: snapshot.fractionLabel,
-            completed: snapshot.modulesCompleted,
-            total: snapshot.modulesTotal,
-            hint: snapshot.overviewHint,
+        const SizedBox(height: AppSpacing.sm),
+        for (final p in snapshot.performance) ...[
+          _PerfCard(
+            item: p,
+            onTap: () => context.push(AppRoutes.moduleDetail(p.moduleId)),
           ),
-        ),
-        const SizedBox(height: AppSpacing.sectionGap),
-        SectionHeader(title: l10n.progressSectionRecent),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.pageHorizontal),
-          child: Column(
-            children: [
-              for (final r in snapshot.recent) ...[
-                RecentResultTile(
-                  moduleTitle: r.title,
-                  condition: r.condition,
-                  scoreLabel: r.score,
-                  dateLabel: r.date,
-                  statusLabel: r.completed ? l10n.progressStatusCompleted : l10n.progressStatusInProgress,
-                  completedStyle: r.completed,
-                  onTap: () => context.push(AppRoutes.moduleDetail(r.moduleId)),
-                ),
-                const SizedBox(height: AppSpacing.sm),
-              ],
-            ],
-          ),
-        ),
-        const SizedBox(height: AppSpacing.sectionGap),
-        SectionHeader(title: l10n.progressSectionPerformance),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.pageHorizontal),
-          child: LayoutBuilder(
-            builder: (context, c) {
-              if (c.maxWidth >= 720) {
-                return Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    for (var i = 0; i < snapshot.performance.length; i++) ...[
-                      if (i > 0) const SizedBox(width: AppSpacing.sm),
-                      Expanded(child: _perfCard(context, snapshot.performance[i], l10n)),
-                    ],
-                  ],
-                );
-              }
-              return Column(
-                children: [
-                  for (final p in snapshot.performance) ...[
-                    _perfCard(context, p, l10n),
-                    const SizedBox(height: AppSpacing.sm),
-                  ],
-                ],
-              );
-            },
-          ),
-        ),
-        const SizedBox(height: AppSpacing.sectionGap),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.pageHorizontal),
-          child: LearningTrendPanel(
-            title: l10n.progressSectionTrend,
-            caption: l10n.progressTrendCaption,
-            values: snapshot.trendValues,
-            dayLabels: snapshot.trendDayLabels,
-          ),
-        ),
+          const SizedBox(height: AppSpacing.sm),
+        ],
       ],
-    );
-  }
-
-  Widget _perfCard(BuildContext context, ModulePerfItem p, AppLocalizations l10n) {
-    return ModulePerformanceCard(
-      title: p.title,
-      subtitle: p.subtitle,
-      scorePercent: p.scorePercent,
-      progress: p.progress,
-      attemptsLabel: l10n.progressAttemptsCount(p.attempts),
-      lastActiveLabel: p.lastActive,
-      onTap: () => context.push(AppRoutes.moduleDetail(p.moduleId)),
     );
   }
 }
 
+class _KpiCard extends StatelessWidget {
+  const _KpiCard({required this.value, required this.label, required this.sub});
+  final String value;
+  final String label;
+  final String sub;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.md),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(AppRadii.lg),
+        border: Border.all(color: AppColors.outline.withValues(alpha: 0.35)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(value, style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800)),
+          const SizedBox(height: 2),
+          Text(label, style: Theme.of(context).textTheme.bodyMedium),
+          const SizedBox(height: 2),
+          Text(sub, style: Theme.of(context).textTheme.labelSmall?.copyWith(color: AppColors.textMuted)),
+        ],
+      ),
+    );
+  }
+}
+
+class _DomainProgressPanel extends StatelessWidget {
+  const _DomainProgressPanel({required this.domains});
+  final List<ClinicalDomain> domains;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.md),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(AppRadii.lg),
+        border: Border.all(color: AppColors.outline.withValues(alpha: 0.35)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Domain progression',
+            style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          for (final d in domains) ...[
+            Text(d.name, style: Theme.of(context).textTheme.labelLarge),
+            const SizedBox(height: 4),
+            Row(
+              children: [
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(AppRadii.pill),
+                    child: LinearProgressIndicator(
+                      value: d.progress / 100,
+                      minHeight: 5,
+                      color: AppColors.primary,
+                      backgroundColor: AppColors.outline.withValues(alpha: 0.35),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Text('${d.progress}%'),
+              ],
+            ),
+            const SizedBox(height: AppSpacing.sm),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _RecentOutcomeCard extends StatelessWidget {
+  const _RecentOutcomeCard({
+    required this.title,
+    required this.subtitle,
+    required this.score,
+    required this.status,
+    required this.onTap,
+  });
+
+  final String title;
+  final String subtitle;
+  final String score;
+  final String status;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      tileColor: AppColors.card,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppRadii.lg),
+        side: BorderSide(color: AppColors.outline.withValues(alpha: 0.35)),
+      ),
+      title: Text(title, style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700)),
+      subtitle: Text('$subtitle · $status'),
+      trailing: Text(score, style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800)),
+      onTap: onTap,
+    );
+  }
+}
+
+class _PerfCard extends StatelessWidget {
+  const _PerfCard({required this.item, required this.onTap});
+  final ModulePerfItem item;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(AppRadii.lg),
+      child: Container(
+        padding: const EdgeInsets.all(AppSpacing.md),
+        decoration: BoxDecoration(
+          color: AppColors.card,
+          borderRadius: BorderRadius.circular(AppRadii.lg),
+          border: Border.all(color: AppColors.outline.withValues(alpha: 0.35)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(item.title, style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700)),
+                ),
+                Text('${item.scorePercent}%'),
+              ],
+            ),
+            const SizedBox(height: 4),
+            Text(item.subtitle, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.textMuted)),
+            const SizedBox(height: 8),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(AppRadii.pill),
+              child: LinearProgressIndicator(
+                value: item.progress,
+                minHeight: 5,
+                color: AppColors.primary,
+                backgroundColor: AppColors.outline.withValues(alpha: 0.35),
+              ),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              '${item.attempts} attempts · ${item.lastActive}',
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(color: AppColors.textMuted),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

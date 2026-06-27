@@ -3,6 +3,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../../core/constants/firestore_paths.dart';
 import '../../../../shared/models/user_profile.dart';
@@ -25,6 +26,31 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<void> signInWithGoogle() async {
+    _assertFirebase();
+    final UserCredential cred;
+    if (kIsWeb) {
+      cred = await _auth.signInWithPopup(GoogleAuthProvider());
+    } else {
+      final googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) {
+        throw FirebaseAuthException(
+          code: 'google-sign-in-cancelled',
+          message: 'Google sign-in was cancelled.',
+        );
+      }
+      final googleAuth = await googleUser.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      cred = await _auth.signInWithCredential(credential);
+    }
+    await _ensureUserProfileDoc(cred.user);
+    await _logAnalytics('sign_in', const {'method': 'google'});
+  }
+
+  @override
   Future<void> registerWithEmailAndPassword({
     required String email,
     required String password,
@@ -42,6 +68,9 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> signOut() async {
     if (!_firebaseReady) return;
+    if (!kIsWeb) {
+      await GoogleSignIn().signOut();
+    }
     await _auth.signOut();
     await _logAnalytics('sign_out');
   }

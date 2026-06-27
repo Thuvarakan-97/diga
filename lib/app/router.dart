@@ -21,9 +21,7 @@ import '../features/profile/presentation/screens/personal_details_screen.dart';
 import '../features/profile/presentation/screens/privacy_data_screen.dart';
 import '../features/profile/presentation/screens/profile_screen.dart';
 import '../features/progress/presentation/screens/progress_dashboard_screen.dart';
-import '../features/simulation/presentation/screens/diagnose_phase_screen.dart';
-import '../features/simulation/presentation/screens/follow_up_phase_screen.dart';
-import '../features/simulation/presentation/screens/prescribe_phase_screen.dart';
+import '../features/simulation/presentation/screens/simulation_exam_screen.dart';
 import 'package:diga/features/simulation/presentation/screens/simulation_result_screen.dart';
 import 'main_shell.dart';
 
@@ -46,7 +44,14 @@ final goRouterProvider = Provider<GoRouter>((ref) {
     debugLogDiagnostics: kDebugMode,
     redirect: (context, state) {
       final loc = state.matchedLocation;
-      final authed = ref.read(sessionAuthedProvider);
+      final status = ref.read(authSessionStatusProvider);
+
+      if (status == AuthSessionStatus.loading) {
+        if (loc != AppRoutes.splash) return AppRoutes.splash;
+        return null;
+      }
+
+      final authed = status == AuthSessionStatus.authed;
 
       if (_isPublicRoute(loc)) {
         if (authed && (loc == AppRoutes.login || loc == AppRoutes.register)) {
@@ -162,40 +167,43 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           final moduleId = state.pathParameters['moduleId']!;
           return ModuleDetailScreen(moduleId: moduleId);
         },
-        routes: [
-          GoRoute(
-            path: 'simulation/diagnose',
-            name: AppRouteNames.simulationDiagnose,
-            builder: (context, state) {
-              final moduleId = state.pathParameters['moduleId']!;
-              return DiagnosePhaseScreen(moduleId: moduleId);
-            },
-          ),
-          GoRoute(
-            path: 'simulation/prescribe',
-            name: AppRouteNames.simulationPrescribe,
-            builder: (context, state) {
-              final moduleId = state.pathParameters['moduleId']!;
-              return PrescribePhaseScreen(moduleId: moduleId);
-            },
-          ),
-          GoRoute(
-            path: 'simulation/follow-up',
-            name: AppRouteNames.simulationFollowUp,
-            builder: (context, state) {
-              final moduleId = state.pathParameters['moduleId']!;
-              return FollowUpPhaseScreen(moduleId: moduleId);
-            },
-          ),
-          GoRoute(
-            path: 'simulation/result',
-            name: AppRouteNames.simulationResult,
-            builder: (context, state) {
-              final moduleId = state.pathParameters['moduleId']!;
-              return SimulationResultScreen(moduleId: moduleId);
-            },
-          ),
-        ],
+      ),
+      GoRoute(
+        path: '/modules/:moduleId/simulation/diagnose',
+        name: AppRouteNames.simulationDiagnose,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) {
+          final moduleId = state.pathParameters['moduleId']!;
+          final scenarioId = state.uri.queryParameters['scenarioId'];
+          return SimulationExamScreen(moduleId: moduleId, scenarioId: scenarioId);
+        },
+      ),
+      GoRoute(
+        path: '/modules/:moduleId/simulation/prescribe',
+        name: AppRouteNames.simulationPrescribe,
+        parentNavigatorKey: _rootNavigatorKey,
+        redirect: (context, state) {
+          final moduleId = state.pathParameters['moduleId']!;
+          return AppRoutes.simulationDiagnose(moduleId);
+        },
+      ),
+      GoRoute(
+        path: '/modules/:moduleId/simulation/follow-up',
+        name: AppRouteNames.simulationFollowUp,
+        parentNavigatorKey: _rootNavigatorKey,
+        redirect: (context, state) {
+          final moduleId = state.pathParameters['moduleId']!;
+          return AppRoutes.simulationDiagnose(moduleId);
+        },
+      ),
+      GoRoute(
+        path: '/modules/:moduleId/simulation/result',
+        name: AppRouteNames.simulationResult,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) {
+          final moduleId = state.pathParameters['moduleId']!;
+          return SimulationResultScreen(moduleId: moduleId);
+        },
       ),
     ],
     errorBuilder: (context, state) {

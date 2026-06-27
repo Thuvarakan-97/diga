@@ -1,19 +1,13 @@
 ﻿import 'package:diga/core/constants/app_routes.dart';
 import 'package:diga/core/theme/app_colors.dart';
+import 'package:diga/core/theme/app_radii.dart';
 import 'package:diga/core/theme/app_spacing.dart';
-import 'package:diga/features/ai_support/presentation/providers/ai_support_providers.dart';
 import 'package:diga/features/auth/presentation/providers/auth_providers.dart';
-import 'package:diga/features/gamification/presentation/providers/gamification_providers.dart';
-import 'package:diga/features/gamification/presentation/widgets/achievement_banner.dart';
-import 'package:diga/features/gamification/presentation/widgets/badge_card.dart';
-import 'package:diga/features/gamification/presentation/widgets/level_progress_card.dart';
-import 'package:diga/features/gamification/presentation/widgets/recommendation_card.dart';
-import 'package:diga/features/gamification/presentation/widgets/streak_card.dart';
-import 'package:diga/features/gamification/presentation/widgets/xp_summary_card.dart';
-import 'package:diga/features/home/presentation/widgets/continue_learning_card.dart';
-import 'package:diga/l10n/app_localizations.dart';
+import 'package:diga/features/diga_modules/presentation/models/clinical_domain_data.dart';
+import 'package:diga/features/diga_modules/presentation/widgets/clinical_domain_card.dart';
+import 'package:diga/features/diga_modules/presentation/widgets/domain_cover_illustration.dart';
+import 'package:diga/features/diga_modules/presentation/widgets/domain_visuals.dart';
 import 'package:diga/shared/extensions/context_l10n.dart';
-import 'package:diga/shared/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -21,16 +15,16 @@ import 'package:go_router/go_router.dart';
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
-  static const _previewEmptyRecent = false;
-
-  String _greeting(AppLocalizations l10n) {
+  String _greeting(BuildContext context) {
+    final l10n = context.l10n;
     final h = DateTime.now().hour;
     if (h < 12) return l10n.homeGreetingMorning;
     if (h < 17) return l10n.homeGreetingAfternoon;
     return l10n.homeGreetingEvening;
   }
 
-  String _displayName(WidgetRef ref, AppLocalizations l10n) {
+  String _displayName(WidgetRef ref, BuildContext context) {
+    final l10n = context.l10n;
     final user = ref.watch(firebaseAuthStateProvider).valueOrNull;
     if (user?.displayName != null && user!.displayName!.trim().isNotEmpty) {
       return user.displayName!.trim();
@@ -45,227 +39,370 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
+    final name = _displayName(ref, context);
+    final domains = ClinicalDomainData.domains;
+    final continueDomain = ClinicalDomainData.byId('mental');
     final theme = Theme.of(context);
-    final name = _displayName(ref, l10n);
-    final gamification = ref.watch(gamificationProfileProvider);
-    final recommendation = ref.watch(aiRecommendationProvider).valueOrNull;
 
     return Scaffold(
       backgroundColor: AppColors.surface,
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: AppPageHeader(
-              title: '${_greeting(l10n)}, $name',
-              subtitle: l10n.homeDashboardSubtitle,
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(
+          AppSpacing.pageHorizontal,
+          AppSpacing.sm,
+          AppSpacing.pageHorizontal,
+          AppSpacing.xxl,
+        ),
+        children: [
+          _HeroBanner(greeting: _greeting(context), name: name, subtitle: l10n.homeDashboardSubtitle),
+          const SizedBox(height: AppSpacing.lg),
+          Text(
+            l10n.homeStatsTitle.toUpperCase(),
+            style: theme.textTheme.labelSmall?.copyWith(
+              letterSpacing: 0.8,
+              fontWeight: FontWeight.w700,
+              color: AppColors.textMuted,
             ),
           ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.pageHorizontal),
-              child: ContinueLearningCard(
-                title: l10n.homeContinueTitle,
-                moduleName: l10n.homeContinueModule,
-                phaseLine: l10n.homeContinuePhase,
-                hint: l10n.homeContinueHint,
-                ctaLabel: l10n.homeContinueCta,
-                onPressed: () => context.push(AppRoutes.simulationPrescribe('vivira')),
-              ),
-            ),
-          ),
-          const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sectionGap)),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.pageHorizontal),
-              child: Text(
-                'Gamification overview',
-                style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w800, color: const Color(0xFF1C252C)),
-              ),
-            ),
-          ),
-          const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sm)),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.pageHorizontal),
-              child: gamification.maybeWhen(
-                data: (profile) => Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(child: XPSummaryCard(totalXp: profile.xp.totalXp, weeklyGain: profile.streak.sessionsThisWeek * 60)),
-                        const SizedBox(width: AppSpacing.sm),
-                        Expanded(child: StreakCard(streak: profile.streak)),
-                      ],
-                    ),
-                    const SizedBox(height: AppSpacing.sm),
-                    LevelProgressCard(level: profile.level),
-                    if (profile.recentAchievements.isNotEmpty) ...[
-                      const SizedBox(height: AppSpacing.sm),
-                      AchievementBanner(achievement: profile.recentAchievements.first),
-                    ],
-                    if (recommendation != null) ...[
-                      const SizedBox(height: AppSpacing.sm),
-                      RecommendationCard(
-                        recommendation: recommendation,
-                        onTap: () => context.push(AppRoutes.moduleDetail(recommendation.nextModuleId)),
-                      ),
-                    ],
-                  ],
+          const SizedBox(height: AppSpacing.sm),
+          const Row(
+            children: [
+              Expanded(
+                child: _StatCard(
+                  value: '7',
+                  label: 'Day streak',
+                  sub: '🔥 Personal best',
+                  icon: Icons.local_fire_department_rounded,
+                  tint: Color(0xFFFF7043),
                 ),
-                orElse: () => const LoadingSkeleton(height: 220),
               ),
-            ),
-          ),
-          const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sectionGap)),
-          SliverToBoxAdapter(child: SectionHeader(title: 'Badge preview', trailingLabel: l10n.homeSeeModules, onTrailingTap: () => context.go(AppRoutes.progress))),
-          SliverToBoxAdapter(
-            child: SizedBox(
-              height: 102,
-              child: gamification.maybeWhen(
-                data: (profile) => ListView.separated(
-                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.pageHorizontal),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: profile.badges.length,
-                  separatorBuilder: (context, index) => const SizedBox(width: AppSpacing.sm),
-                  itemBuilder: (context, index) => SizedBox(width: 280, child: BadgeCard(badge: profile.badges[index])),
+              SizedBox(width: AppSpacing.sm),
+              Expanded(
+                child: _StatCard(
+                  value: '24',
+                  label: 'Completed',
+                  sub: '+3 this week',
+                  icon: Icons.check_circle_outline_rounded,
+                  tint: AppColors.success,
                 ),
-                orElse: () => const SizedBox.shrink(),
               ),
-            ),
-          ),
-          const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sectionGap)),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.pageHorizontal),
-              child: Text(
-                l10n.homeStatsTitle,
-                style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF1C252C)),
+              SizedBox(width: AppSpacing.sm),
+              Expanded(
+                child: _StatCard(
+                  value: '83%',
+                  label: 'Accuracy',
+                  sub: '+4.1% last week',
+                  icon: Icons.trending_up_rounded,
+                  tint: AppColors.primary,
+                ),
               ),
-            ),
+            ],
           ),
-          const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sm)),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.pageHorizontal),
-              child: Row(
-                children: [
-                  MetricTile(icon: Icons.check_circle_outline_rounded, label: l10n.homeMetricModules, value: '2', iconBackground: AppColors.successSoft, iconColor: AppColors.success),
-                  const SizedBox(width: AppSpacing.sm),
-                  MetricTile(icon: Icons.center_focus_strong_rounded, label: l10n.homeMetricAccuracy, value: '87%', iconBackground: AppColors.primaryContainer.withValues(alpha: 0.7), iconColor: AppColors.primary),
-                  const SizedBox(width: AppSpacing.sm),
-                  MetricTile(icon: Icons.local_fire_department_outlined, label: l10n.homeMetricStreak, value: '3', iconBackground: AppColors.warningSoft, iconColor: AppColors.warning),
-                ],
-              ),
-            ),
-          ),
-          const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sectionGap)),
-          SliverToBoxAdapter(
-            child: SectionHeader(
-              title: l10n.homeSectionRecommended,
-              trailingLabel: l10n.homeSeeModules,
-              onTrailingTap: () => context.go(AppRoutes.modules),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.pageHorizontal),
-              child: Column(
-                children: [
-                  DigaModuleCard(
-                    title: l10n.moduleKalmedaDemo,
-                    condition: l10n.moduleKalmedaSubtitle,
-                    description: l10n.homeModuleDescKalmeda,
-                    durationLabel: l10n.homeDuration12,
-                    tagLabel: l10n.homeTagEnt,
-                    verifiedLabel: l10n.homeVerifiedApr2025,
-                    ctaLabel: l10n.homeCtaContinue,
-                    onTap: () => context.push(AppRoutes.moduleDetail('kalmeda')),
-                    onCta: () => context.push(AppRoutes.simulationDiagnose('kalmeda')),
-                  ),
-                  const SizedBox(height: AppSpacing.md),
-                  DigaModuleCard(
-                    title: l10n.moduleViviraDemo,
-                    condition: l10n.moduleViviraSubtitle,
-                    description: l10n.homeModuleDescVivira,
-                    durationLabel: l10n.homeDuration20,
-                    tagLabel: l10n.homeTagGp,
-                    verifiedLabel: l10n.homeVerifiedApr2025,
-                    ctaLabel: l10n.homeCtaStart,
-                    onTap: () => context.push(AppRoutes.moduleDetail('vivira')),
-                    onCta: () => context.push(AppRoutes.simulationDiagnose('vivira')),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sectionGap)),
-          SliverToBoxAdapter(
-            child: SectionHeader(
-              title: l10n.homeSectionRecent,
-              trailingLabel: l10n.homeSeeModules,
-              onTrailingTap: () => context.go(AppRoutes.progress),
-            ),
-          ),
-          if (_previewEmptyRecent)
-            SliverToBoxAdapter(
-              child: EmptyStateView(
-                icon: Icons.history_rounded,
-                title: l10n.homeEmptyActivityTitle,
-                message: l10n.homeEmptyActivityBody,
-                actionLabel: l10n.homeEmptyCta,
-                onAction: () => context.go(AppRoutes.modules),
-              ),
-            )
-          else
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.pageHorizontal),
-                child: DigaSurfaceCard(
-                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
-                  elevation: CardElevation.subtle,
-                  child: Column(
-                    children: [
-                      _RecentTile(icon: Icons.verified_rounded, iconColor: AppColors.success, iconBg: AppColors.successSoft, title: l10n.homeRecentItem1Title, subtitle: l10n.homeRecentItem1Subtitle),
-                      const Divider(height: 1),
-                      _RecentTile(icon: Icons.article_outlined, iconColor: AppColors.accent, iconBg: AppColors.accentSoft.withValues(alpha: 0.35), title: l10n.homeRecentItem2Title, subtitle: l10n.homeRecentItem2Subtitle),
-                    ],
+          const SizedBox(height: AppSpacing.lg),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  l10n.homeContinueTitle.toUpperCase(),
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    letterSpacing: 0.8,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.textMuted,
                   ),
                 ),
               ),
+              TextButton(
+                onPressed: () => context.go(AppRoutes.modules),
+                child: Text(l10n.homeSeeModules),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.xs),
+          _ContinueCard(
+            domain: continueDomain,
+            scenarioTitle: continueDomain.scenarios.first.title,
+            onTap: () => context.push('/modules/mental'),
+          ),
+          const SizedBox(height: AppSpacing.lg),
+          Text(
+            'ALL DOMAINS',
+            style: theme.textTheme.labelSmall?.copyWith(
+              letterSpacing: 0.8,
+              fontWeight: FontWeight.w700,
+              color: AppColors.textMuted,
             ),
-          const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xxl)),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 280,
+              crossAxisSpacing: AppSpacing.sm,
+              mainAxisSpacing: AppSpacing.sm,
+              childAspectRatio: 0.72,
+            ),
+            itemCount: domains.length,
+            itemBuilder: (context, index) {
+              final d = domains[index];
+              return ClinicalDomainCard(
+                domain: d,
+                compact: true,
+                showScenarioCount: true,
+                onTap: () => context.push('/modules/${d.id}'),
+              );
+            },
+          ),
         ],
       ),
     );
   }
 }
 
-class _RecentTile extends StatelessWidget {
-  const _RecentTile({required this.icon, required this.iconColor, required this.iconBg, required this.title, required this.subtitle});
+class _HeroBanner extends StatelessWidget {
+  const _HeroBanner({
+    required this.greeting,
+    required this.name,
+    required this.subtitle,
+  });
 
-  final IconData icon;
-  final Color iconColor;
-  final Color iconBg;
-  final String title;
+  final String greeting;
+  final String name;
   final String subtitle;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.xs),
-      leading: Container(
-        width: 44,
-        height: 44,
-        decoration: BoxDecoration(color: iconBg, borderRadius: BorderRadius.circular(12)),
-        child: Icon(icon, color: iconColor, size: 22),
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [AppColors.primaryDark, AppColors.primary, AppColors.primaryLight],
+        ),
+        borderRadius: BorderRadius.circular(AppRadii.lg),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primary.withValues(alpha: 0.28),
+            blurRadius: 18,
+            offset: const Offset(0, 8),
+          ),
+        ],
       ),
-      title: Text(title, style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
-      subtitle: Text(subtitle, style: theme.textTheme.bodySmall?.copyWith(color: AppColors.textMuted)),
-      trailing: Icon(Icons.chevron_right_rounded, color: AppColors.textMuted.withValues(alpha: 0.6)),
-      onTap: () => context.go(AppRoutes.progress),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '$greeting, $name 👋',
+            style: theme.textTheme.titleLarge?.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.xs),
+          Text(
+            subtitle,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: Colors.white.withValues(alpha: 0.88),
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.16),
+                  borderRadius: BorderRadius.circular(AppRadii.pill),
+                ),
+                child: const Text(
+                  'Level 12',
+                  style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w700),
+                ),
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(AppRadii.pill),
+                  child: LinearProgressIndicator(
+                    value: 0.34,
+                    minHeight: 6,
+                    color: AppColors.accentSoft,
+                    backgroundColor: Colors.white.withValues(alpha: 0.22),
+                  ),
+                ),
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              Text(
+                '3,450 / 5,000 XP',
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: Colors.white.withValues(alpha: 0.92),
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
 
+class _StatCard extends StatelessWidget {
+  const _StatCard({
+    required this.value,
+    required this.label,
+    required this.sub,
+    required this.icon,
+    required this.tint,
+  });
 
+  final String value;
+  final String label;
+  final String sub;
+  final IconData icon;
+  final Color tint;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = Theme.of(context);
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.sm),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(AppRadii.md),
+        border: Border.all(color: AppColors.outline.withValues(alpha: 0.3)),
+        boxShadow: [
+          BoxShadow(
+            color: tint.withValues(alpha: 0.08),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(icon, size: 16, color: tint),
+              const Spacer(),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.xs),
+          Text(value, style: t.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800, color: tint)),
+          Text(label, style: t.textTheme.bodySmall),
+          Text(sub, style: t.textTheme.labelSmall?.copyWith(color: tint, fontWeight: FontWeight.w600)),
+        ],
+      ),
+    );
+  }
+}
+
+class _ContinueCard extends StatelessWidget {
+  const _ContinueCard({
+    required this.domain,
+    required this.scenarioTitle,
+    required this.onTap,
+  });
+
+  final ClinicalDomain domain;
+  final String scenarioTitle;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final visuals = DomainVisuals.forId(domain.id);
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(AppRadii.lg),
+        onTap: onTap,
+        child: Ink(
+          decoration: BoxDecoration(
+            color: AppColors.card,
+            borderRadius: BorderRadius.circular(AppRadii.lg),
+            border: Border.all(color: AppColors.outline.withValues(alpha: 0.3)),
+            boxShadow: [
+              BoxShadow(
+                color: visuals.glow.withValues(alpha: 0.14),
+                blurRadius: 14,
+                offset: const Offset(0, 6),
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(AppRadii.lg),
+            child: IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(
+                    width: 108,
+                    child: DomainCoverIllustration(
+                      domain: domain,
+                      borderRadius: BorderRadius.zero,
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(AppSpacing.md),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                decoration: BoxDecoration(
+                                  color: visuals.accent,
+                                  borderRadius: BorderRadius.circular(AppRadii.pill),
+                                ),
+                                child: Text(
+                                  domain.name,
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w700,
+                                    color: visuals.gradient.first,
+                                  ),
+                                ),
+                              ),
+                              const Spacer(),
+                              Icon(Icons.play_circle_fill_rounded, color: visuals.gradient.first),
+                            ],
+                          ),
+                          const SizedBox(height: AppSpacing.sm),
+                          Text(
+                            scenarioTitle,
+                            style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800),
+                          ),
+                          const SizedBox(height: AppSpacing.xxs),
+                          Text(
+                            'Step 2 of 4 · Scenario 1.1',
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.textMuted),
+                          ),
+                          const SizedBox(height: AppSpacing.sm),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(AppRadii.pill),
+                            child: LinearProgressIndicator(
+                              value: 0.33,
+                              minHeight: 4,
+                              color: visuals.gradient.first,
+                              backgroundColor: AppColors.outline.withValues(alpha: 0.35),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

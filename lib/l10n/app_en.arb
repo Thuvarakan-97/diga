@@ -36,6 +36,17 @@
   },
   "authDemoBanner": "Demo mode (no Firebase on this device).",
   "authErrorGeneric": "Something went wrong. Please try again.",
+  "authSignInGoogle": "Continue with Google",
+  "authOrContinueWith": "or",
+  "authErrorEmailInUse": "This email is already registered. Try signing in instead.",
+  "authErrorWrongPassword": "Incorrect email or password.",
+  "authErrorUserNotFound": "No account found for this email.",
+  "authErrorInvalidEmail": "Please enter a valid email address.",
+  "authErrorWeakPassword": "Password is too weak. Use at least 8 characters.",
+  "authErrorTooManyRequests": "Too many attempts. Please wait and try again.",
+  "authErrorNetwork": "Network error. Check your connection and try again.",
+  "authErrorGoogleCancelled": "Google sign-in was cancelled.",
+  "authFirebaseWebSetup": "Add your Web app ID in Firebase Console → Project settings → Your apps → Web, then paste the appId into lib/firebase_options.dart.",
   "navHome": "Home",
   "navModules": "Modules",
   "navCompanion": "Companion",
@@ -140,6 +151,105 @@
   "simulationToResult": "View result",
   "simulationScorePlaceholder": "Score / feedback (placeholder)",
   "simulationBackToModuleList": "Back to module list",
+  "simulationBackToScenarios": "Back to scenarios",
+  "quizPhaseDiagnoseShort": "Diagnosis",
+  "quizPhasePrescribeShort": "Prescribing",
+  "quizPhaseFollowUpShort": "Follow-up",
+  "simulationDecisionPoint": "Decision point",
+  "simulationCorrectLabel": "Correct",
+  "simulationIncorrectLabel": "Incorrect",
+  "simulationYourAnswerLabel": "Your answer",
+  "simulationCorrectAnswerLabel": "Correct answer",
+  "simulationExplanationLabel": "Explanation",
+  "simulationTeachingPearlLabel": "Teaching pearl",
+  "simulationNoAnswerRecorded": "No answer recorded",
+  "simulationXpEarned": "XP earned",
+  "simulationXpEarnedValue": "+{xp} XP",
+  "@simulationXpEarnedValue": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      }
+    }
+  },
+  "simulationAnswerReviewTitle": "Answer review",
+  "simulationAnswerReviewSubtitle": "Review your choices, correct answers, and clinical explanations for each phase.",
+  "simulationScoreBreakdown": "Score breakdown",
+  "simulationBadgesUnlocked": "Badges unlocked",
+  "simulationUnableToLoadResult": "Unable to load result summary.",
+  "simulationScoreAccuracy": "Score {score}% | Accuracy {accuracy}%",
+  "@simulationScoreAccuracy": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      },
+      "accuracy": {
+        "type": "int"
+      }
+    }
+  },
+  "simulationMarks": "Marks: {marks}",
+  "@simulationMarks": {
+    "placeholders": {
+      "marks": {
+        "type": "String"
+      }
+    }
+  },
+  "simulationContinueNextDomain": "Continue in next domain",
+  "simulationContinueNextScenario": "Continue to next scenario",
+  "simulationExamPassedBanner": "Exam passed! {score}%",
+  "@simulationExamPassedBanner": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    }
+  },
+  "simulationExamFailedBanner": "Try again! You scored {score}%",
+  "@simulationExamFailedBanner": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    }
+  },
+  "simulationSuggestedScenario": "Suggested scenario: {title}",
+  "@simulationSuggestedScenario": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "simulationExamTitle": "Domain exam",
+  "simulationExamLoading": "Preparing your questions…",
+  "simulationQuestionProgress": "Question {current} of {total}",
+  "@simulationQuestionProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "simulationPreviousQuestion": "Previous",
+  "simulationNextQuestion": "Next",
+  "simulationSubmitExam": "Submit exam",
+  "simulationExamAnsweredCount": "{answered} of {total} answered",
+  "@simulationExamAnsweredCount": {
+    "placeholders": {
+      "answered": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "simulationExamUnansweredWarning": "Answer all questions before submitting. Use Previous to review skipped items.",
   "companionTitle": "Prescription companion",
   "companionPageTitle": "Prescription Companion",
   "companionPageSubtitle": "Clinical reference for DiGA prescribing",

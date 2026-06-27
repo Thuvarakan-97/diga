@@ -31,15 +31,18 @@ class BackendReadyAiSupportRepository implements AISupportRepository {
   Future<AIRecommendation> fetchRecommendation({
     required int accuracyPercent,
     required int streakDays,
+    String? completedModuleId,
   }) async {
     final remote = await _remote.fetchRecommendation(
       accuracyPercent: accuracyPercent,
       streakDays: streakDays,
+      completedModuleId: completedModuleId,
     );
     return remote ??
         _fallback.fetchRecommendation(
           accuracyPercent: accuracyPercent,
           streakDays: streakDays,
+          completedModuleId: completedModuleId,
         );
   }
 

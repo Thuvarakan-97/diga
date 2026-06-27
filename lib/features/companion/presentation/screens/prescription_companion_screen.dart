@@ -1,6 +1,8 @@
 import 'package:diga/core/theme/app_colors.dart';
+import 'package:diga/core/theme/app_radii.dart';
 import 'package:diga/core/theme/app_spacing.dart';
 import 'package:diga/features/companion/presentation/data/companion_reference_data.dart';
+import 'package:diga/features/diga_modules/presentation/models/clinical_domain_data.dart';
 import 'package:diga/shared/extensions/context_l10n.dart';
 import 'package:diga/shared/widgets/app_page_header.dart';
 import 'package:diga/shared/widgets/empty_state_view.dart';
@@ -19,14 +21,14 @@ class PrescriptionCompanionScreen extends StatefulWidget {
 
 class _PrescriptionCompanionScreenState extends State<PrescriptionCompanionScreen> {
   String? _selectedId;
+  String? _selectedDomainId;
 
   @override
   void initState() {
     super.initState();
     final initial = widget.moduleId?.toLowerCase();
-    if (initial == 'kalmeda' || initial == 'vivira') {
-      _selectedId = initial;
-    }
+    _selectedId = initial;
+    _selectedDomainId = ClinicalDomainData.mapModuleToDomain(initial ?? 'mental');
   }
 
   @override
@@ -34,9 +36,10 @@ class _PrescriptionCompanionScreenState extends State<PrescriptionCompanionScree
     super.didUpdateWidget(oldWidget);
     if (widget.moduleId != oldWidget.moduleId) {
       final initial = widget.moduleId?.toLowerCase();
-      if (initial == 'kalmeda' || initial == 'vivira') {
-        setState(() => _selectedId = initial);
-      }
+      setState(() {
+        _selectedId = initial;
+        _selectedDomainId = ClinicalDomainData.mapModuleToDomain(initial ?? 'mental');
+      });
     }
   }
 
@@ -44,6 +47,7 @@ class _PrescriptionCompanionScreenState extends State<PrescriptionCompanionScree
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
+    final selectedDomain = ClinicalDomainData.byId(_selectedDomainId ?? 'mental');
     final data = CompanionReferenceData.forModule(_selectedId, l10n);
 
     return Scaffold(
@@ -62,7 +66,7 @@ class _PrescriptionCompanionScreenState extends State<PrescriptionCompanionScree
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    l10n.companionSelectorLabel,
+                    'Clinical domain',
                     style: theme.textTheme.labelLarge?.copyWith(
                       color: AppColors.textMuted,
                       fontWeight: FontWeight.w600,
@@ -73,27 +77,115 @@ class _PrescriptionCompanionScreenState extends State<PrescriptionCompanionScree
                     spacing: AppSpacing.sm,
                     runSpacing: AppSpacing.sm,
                     children: [
-                      ChoiceChip(
-                        label: Text(l10n.companionChipKalmeda),
-                        selected: _selectedId == 'kalmeda',
-                        onSelected: (v) => setState(() => _selectedId = v ? 'kalmeda' : null),
-                      ),
-                      ChoiceChip(
-                        label: Text(l10n.companionChipVivira),
-                        selected: _selectedId == 'vivira',
-                        onSelected: (v) => setState(() => _selectedId = v ? 'vivira' : null),
-                      ),
+                      for (final domain in ClinicalDomainData.domains)
+                        ChoiceChip(
+                          label: Text(domain.name),
+                          selected: _selectedDomainId == domain.id,
+                          onSelected: (_) {
+                            setState(() {
+                              _selectedDomainId = domain.id;
+                              _selectedId = domain.scenarios.first.moduleId;
+                            });
+                          },
+                        ),
                     ],
                   ),
                 ],
               ),
             ),
+            const SizedBox(height: AppSpacing.md),
+            _SectionGap(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppColors.card,
+                  borderRadius: BorderRadius.circular(AppRadii.lg),
+                  border: Border.all(color: AppColors.outline.withValues(alpha: 0.4)),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(AppSpacing.md),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 18,
+                            backgroundColor: AppColors.primaryContainer,
+                            child: Icon(selectedDomain.icon, color: AppColors.primary),
+                          ),
+                          const SizedBox(width: AppSpacing.sm),
+                          Expanded(
+                            child: Text(
+                              selectedDomain.name,
+                              style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w800),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: AppSpacing.xs),
+                      Text(
+                        selectedDomain.heroDescription,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: AppColors.textMuted,
+                          height: 1.45,
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.sm),
+                      Text(
+                        'Scenario quick select',
+                        style: theme.textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w700),
+                      ),
+                      const SizedBox(height: AppSpacing.xs),
+                      for (final scenario in selectedDomain.scenarios) ...[
+                        ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: Icon(
+                            scenario.locked ? Icons.lock_outline_rounded : Icons.medical_services_outlined,
+                            color: scenario.locked ? AppColors.textMuted : AppColors.primary,
+                          ),
+                          title: Text(
+                            scenario.title,
+                            style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
+                          ),
+                          subtitle: Text('${scenario.tag} · ${scenario.meta}'),
+                          selected: _selectedId == scenario.moduleId,
+                          onTap: () => setState(() => _selectedId = scenario.moduleId),
+                        ),
+                        if (scenario != selectedDomain.scenarios.last) const Divider(height: 1),
+                      ],
+                    ],
+                  ),
+                ),
+              ),
+            ),
             const SizedBox(height: AppSpacing.lg),
             if (data == null)
-              EmptyStateView(
-                icon: Icons.medical_information_outlined,
-                title: l10n.companionEmptyTitle,
-                message: l10n.companionEmptyBody,
+              _SectionGap(
+                child: Column(
+                  children: [
+                    EmptyStateView(
+                      icon: Icons.medical_information_outlined,
+                      title: 'Reference for this scenario is coming soon',
+                      message:
+                          'Full prescribing reference is currently available for Kalmeda and Vivira. Use the safety checklist below meanwhile.',
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    InfoSectionCard(
+                      title: 'Universal safety checklist',
+                      leadingIcon: Icons.verified_user_outlined,
+                      initiallyExpanded: true,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          _BulletRow(icon: Icons.check_circle_outline_rounded, text: 'Confirm diagnosis and timeframe before prescribing any DiGA.'),
+                          _BulletRow(icon: Icons.check_circle_outline_rounded, text: 'Screen for red flags and escalation criteria first.'),
+                          _BulletRow(icon: Icons.check_circle_outline_rounded, text: 'Document indication, baseline score, and follow-up interval.'),
+                          _BulletRow(icon: Icons.check_circle_outline_rounded, text: 'Explain expected benefit, adherence goals, and stop rules.'),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               )
             else ...[
               _SectionGap(

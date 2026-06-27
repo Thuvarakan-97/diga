@@ -14,22 +14,29 @@ class SplashScreen extends ConsumerStatefulWidget {
 }
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
+  bool _minDelayDone = false;
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _routeAfterDelay());
+    Future<void>.delayed(const Duration(milliseconds: 600), () {
+      if (mounted) setState(() => _minDelayDone = true);
+    });
   }
 
-  Future<void> _routeAfterDelay() async {
-    await Future<void>.delayed(const Duration(milliseconds: 800));
-    if (!mounted) return;
-    final authed = ref.read(sessionAuthedProvider);
-    context.go(authed ? AppRoutes.home : AppRoutes.login);
+  void _routeIfReady(AuthSessionStatus status) {
+    if (!_minDelayDone || !mounted || status == AuthSessionStatus.loading) return;
+    context.go(status == AuthSessionStatus.authed ? AppRoutes.home : AppRoutes.login);
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final status = ref.watch(authSessionStatusProvider);
+
+    ref.listen(authSessionStatusProvider, (_, next) => _routeIfReady(next));
+    WidgetsBinding.instance.addPostFrameCallback((_) => _routeIfReady(status));
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -40,6 +47,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             Text(l10n.appTitle, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600)),
             const SizedBox(height: 8),
             Text(l10n.splashLoading, style: const TextStyle(color: Colors.black54)),
+            const SizedBox(height: 24),
+            const CircularProgressIndicator(),
           ],
         ),
       ),

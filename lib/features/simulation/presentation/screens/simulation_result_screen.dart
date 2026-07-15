@@ -4,6 +4,7 @@ import 'package:diga/core/theme/app_radii.dart';
 import 'package:diga/core/theme/app_spacing.dart';
 import 'package:diga/features/ai_support/presentation/providers/ai_support_providers.dart';
 import 'package:diga/features/ai_support/presentation/widgets/conversation_scenario_card.dart';
+import 'package:diga/features/ai_support/presentation/widgets/exam_ai_learning_report_card.dart';
 import 'package:diga/features/diga_modules/presentation/models/clinical_domain_data.dart';
 import 'package:diga/features/diga_modules/presentation/providers/scenario_progress_provider.dart';
 import 'package:diga/features/gamification/presentation/providers/gamification_providers.dart';
@@ -40,6 +41,8 @@ class _SimulationResultScreenState extends ConsumerState<SimulationResultScreen>
     final quiz = (cachedQuiz != null && cachedQuiz.answers.isNotEmpty) ? cachedQuiz : liveQuiz;
     final recommendation = ref.watch(aiRecommendationProvider(widget.moduleId)).valueOrNull;
     final scenario = ref.watch(conversationScenarioProvider(widget.moduleId)).valueOrNull;
+    final aiReport = ref.watch(examAiLearningReportProvider((moduleId: widget.moduleId, l10n: l10n)));
+    final reportSubmitted = ref.watch(submittedAiLearningReportsProvider).contains(widget.moduleId);
     final completedDomain = ClinicalDomainData.domainForModule(widget.moduleId);
     ref.watch(scenarioProgressProvider);
     final progress = ref.read(scenarioProgressProvider.notifier);
@@ -91,6 +94,23 @@ class _SimulationResultScreenState extends ConsumerState<SimulationResultScreen>
                     ),
                   ),
                   const SizedBox(height: AppSpacing.md),
+                  if (aiReport != null) ...[
+                    ExamAiLearningReportCard(
+                      report: aiReport,
+                      submitted: reportSubmitted,
+                      onSubmit: () {
+                        final current = ref.read(submittedAiLearningReportsProvider);
+                        ref.read(submittedAiLearningReportsProvider.notifier).state = {
+                          ...current,
+                          widget.moduleId,
+                        };
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(l10n.aiReportSubmitted)),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                  ],
                   if (nextScenarioInDomain != null)
                     _DomainNextStepCard(
                       domain: completedDomain,

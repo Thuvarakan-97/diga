@@ -143,6 +143,90 @@ class AppLocalizationsDe extends AppLocalizations {
       'Web-App-ID in der Firebase Console hinzufügen (Projekteinstellungen → Ihre Apps → Web) und appId in lib/firebase_options.dart eintragen.';
 
   @override
+  String get aiReportTitle => 'KI-Lernbericht';
+
+  @override
+  String get aiReportSubtitle =>
+      'Persönliches Coaching basierend auf Ihren Prüfungsantworten';
+
+  @override
+  String get aiReportWeakAreas => 'Schwerpunkte';
+
+  @override
+  String get aiReportFocusTitle => 'Fehlerhafte Items zum Wiederholen';
+
+  @override
+  String get aiReportTipsTitle => 'Lerntipps';
+
+  @override
+  String get aiReportNextStepsTitle => 'Empfohlene nächste Schritte';
+
+  @override
+  String get aiReportSubmitCta => 'Lernbericht einreichen';
+
+  @override
+  String get aiReportSubmitted => 'Lernbericht eingereicht';
+
+  @override
+  String get aiReportWeakPhaseGeneral =>
+      'Begründungen der Fehlantworten sorgfältig prüfen';
+
+  @override
+  String get aiReportTipPerfect1 =>
+      'Starke Indikations- und Sicherheitslogik — Baselines weiter explizit dokumentieren.';
+
+  @override
+  String get aiReportTipPerfect2 =>
+      'Nächstes Szenario nutzen, um Follow-up und Adhärenz-Coaching zu vertiefen.';
+
+  @override
+  String get aiReportTipReviewWrong =>
+      'Begründungen der Fehlantworten vor dem Weitergehen erneut lesen.';
+
+  @override
+  String get aiReportTipDiagnose =>
+      'Indikationspassung und Red-Flag-Ausschluss vor der Verordnung schärfen.';
+
+  @override
+  String get aiReportTipPrescribe =>
+      'DiGA-Wahl an Ziele, Ausschlüsse und Patient:innen-Kapazität koppeln.';
+
+  @override
+  String get aiReportTipFollowUp =>
+      'Follow-up-Zeitpunkt und Abbruchkriterien klar im Plan festlegen.';
+
+  @override
+  String get aiReportTipDocumentation =>
+      'Diagnose, Rationale, Ziele und Review-Datum als Kurznotiz dokumentieren.';
+
+  @override
+  String get aiReportNextRetry =>
+      'Szenario nach Prüfung der Schwerpunkte erneut absolvieren.';
+
+  @override
+  String get aiReportNextReviewCompanion =>
+      'Prescription Companion öffnen und Dokumentations-Checkliste prüfen.';
+
+  @override
+  String get aiReportNextContinueScenarios =>
+      'Bei Bereitschaft mit dem nächsten freigeschalteten Szenario fortfahren.';
+
+  @override
+  String aiReportSummaryExcellent(int score) {
+    return 'Ausgezeichnete Prüfung ($score %). Ihr Weg entspricht zentralen DiGA-Verordnungsstandards.';
+  }
+
+  @override
+  String aiReportSummaryPassed(int score, int wrongCount) {
+    return 'Bestanden mit $score % und $wrongCount Fehlern. Stärken Sie die Schwerpunkte unten und fahren Sie fort.';
+  }
+
+  @override
+  String aiReportSummaryFailed(int score, int wrongCount) {
+    return 'Ergebnis $score % — unter der Bestehensgrenze. Prüfen Sie die $wrongCount Fehler und versuchen Sie es erneut.';
+  }
+
+  @override
   String get navHome => 'Start';
 
   @override

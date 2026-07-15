@@ -47,6 +47,45 @@
   "authErrorNetwork": "Netzwerkfehler. Verbindung prüfen und erneut versuchen.",
   "authErrorGoogleCancelled": "Google-Anmeldung abgebrochen.",
   "authFirebaseWebSetup": "Web-App-ID in der Firebase Console hinzufügen (Projekteinstellungen → Ihre Apps → Web) und appId in lib/firebase_options.dart eintragen.",
+  "aiReportTitle": "KI-Lernbericht",
+  "aiReportSubtitle": "Persönliches Coaching basierend auf Ihren Prüfungsantworten",
+  "aiReportWeakAreas": "Schwerpunkte",
+  "aiReportFocusTitle": "Fehlerhafte Items zum Wiederholen",
+  "aiReportTipsTitle": "Lerntipps",
+  "aiReportNextStepsTitle": "Empfohlene nächste Schritte",
+  "aiReportSubmitCta": "Lernbericht einreichen",
+  "aiReportSubmitted": "Lernbericht eingereicht",
+  "aiReportWeakPhaseGeneral": "Begründungen der Fehlantworten sorgfältig prüfen",
+  "aiReportTipPerfect1": "Starke Indikations- und Sicherheitslogik — Baselines weiter explizit dokumentieren.",
+  "aiReportTipPerfect2": "Nächstes Szenario nutzen, um Follow-up und Adhärenz-Coaching zu vertiefen.",
+  "aiReportTipReviewWrong": "Begründungen der Fehlantworten vor dem Weitergehen erneut lesen.",
+  "aiReportTipDiagnose": "Indikationspassung und Red-Flag-Ausschluss vor der Verordnung schärfen.",
+  "aiReportTipPrescribe": "DiGA-Wahl an Ziele, Ausschlüsse und Patient:innen-Kapazität koppeln.",
+  "aiReportTipFollowUp": "Follow-up-Zeitpunkt und Abbruchkriterien klar im Plan festlegen.",
+  "aiReportTipDocumentation": "Diagnose, Rationale, Ziele und Review-Datum als Kurznotiz dokumentieren.",
+  "aiReportNextRetry": "Szenario nach Prüfung der Schwerpunkte erneut absolvieren.",
+  "aiReportNextReviewCompanion": "Prescription Companion öffnen und Dokumentations-Checkliste prüfen.",
+  "aiReportNextContinueScenarios": "Bei Bereitschaft mit dem nächsten freigeschalteten Szenario fortfahren.",
+  "aiReportSummaryExcellent": "Ausgezeichnete Prüfung ({score} %). Ihr Weg entspricht zentralen DiGA-Verordnungsstandards.",
+  "@aiReportSummaryExcellent": {
+    "placeholders": {
+      "score": { "type": "int" }
+    }
+  },
+  "aiReportSummaryPassed": "Bestanden mit {score} % und {wrongCount} Fehlern. Stärken Sie die Schwerpunkte unten und fahren Sie fort.",
+  "@aiReportSummaryPassed": {
+    "placeholders": {
+      "score": { "type": "int" },
+      "wrongCount": { "type": "int" }
+    }
+  },
+  "aiReportSummaryFailed": "Ergebnis {score} % — unter der Bestehensgrenze. Prüfen Sie die {wrongCount} Fehler und versuchen Sie es erneut.",
+  "@aiReportSummaryFailed": {
+    "placeholders": {
+      "score": { "type": "int" },
+      "wrongCount": { "type": "int" }
+    }
+  },
   "navHome": "Start",
   "navModules": "Module",
   "navCompanion": "Begleitung",

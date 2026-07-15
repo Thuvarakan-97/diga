@@ -138,6 +138,88 @@ class AppLocalizationsEn extends AppLocalizations {
       'Add your Web app ID in Firebase Console → Project settings → Your apps → Web, then paste the appId into lib/firebase_options.dart.';
 
   @override
+  String get aiReportTitle => 'AI learning report';
+
+  @override
+  String get aiReportSubtitle => 'Personalized coaching from your exam answers';
+
+  @override
+  String get aiReportWeakAreas => 'Focus areas';
+
+  @override
+  String get aiReportFocusTitle => 'Missed items to review';
+
+  @override
+  String get aiReportTipsTitle => 'Teaching tips';
+
+  @override
+  String get aiReportNextStepsTitle => 'Suggested next steps';
+
+  @override
+  String get aiReportSubmitCta => 'Submit learning report';
+
+  @override
+  String get aiReportSubmitted => 'Learning report submitted';
+
+  @override
+  String get aiReportWeakPhaseGeneral => 'Review missed rationales carefully';
+
+  @override
+  String get aiReportTipPerfect1 =>
+      'Strong indication and safety reasoning — keep documenting baselines explicitly.';
+
+  @override
+  String get aiReportTipPerfect2 =>
+      'Try the next scenario to stretch follow-up and adherence coaching.';
+
+  @override
+  String get aiReportTipReviewWrong =>
+      'Re-read rationales for missed items before moving on.';
+
+  @override
+  String get aiReportTipDiagnose =>
+      'Tighten indication fit and red-flag exclusion before prescribing.';
+
+  @override
+  String get aiReportTipPrescribe =>
+      'Link DiGA choice to goals, exclusions, and patient capacity.';
+
+  @override
+  String get aiReportTipFollowUp =>
+      'Make follow-up timing and stop rules explicit in your plan.';
+
+  @override
+  String get aiReportTipDocumentation =>
+      'Document diagnosis, rationale, goals, and review date as a mini chart note.';
+
+  @override
+  String get aiReportNextRetry =>
+      'Retake this scenario after reviewing the focus items.';
+
+  @override
+  String get aiReportNextReviewCompanion =>
+      'Open Prescription Companion and check the documentation checklist.';
+
+  @override
+  String get aiReportNextContinueScenarios =>
+      'Continue to the next unlocked scenario when ready.';
+
+  @override
+  String aiReportSummaryExcellent(int score) {
+    return 'Excellent exam ($score%). Your pathway matches key DiGA prescribing standards.';
+  }
+
+  @override
+  String aiReportSummaryPassed(int score, int wrongCount) {
+    return 'You passed with $score% and missed $wrongCount item(s). Strengthen the focus areas below, then continue.';
+  }
+
+  @override
+  String aiReportSummaryFailed(int score, int wrongCount) {
+    return 'Score $score% — below the pass mark. Review the $wrongCount missed item(s) and retry when ready.';
+  }
+
+  @override
   String get navHome => 'Home';
 
   @override

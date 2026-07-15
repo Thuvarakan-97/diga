@@ -1,5 +1,10 @@
+import 'package:diga/core/constants/app_routes.dart';
+import 'package:diga/core/theme/app_colors.dart';
+import 'package:diga/core/theme/app_radii.dart';
+import 'package:diga/core/theme/app_spacing.dart';
 import 'package:diga/core/validators/input_validators.dart';
 import 'package:diga/features/auth/presentation/utils/auth_error_messages.dart';
+import 'package:diga/features/auth/presentation/widgets/auth_page_shell.dart';
 import 'package:diga/features/auth/presentation/widgets/google_sign_in_button.dart';
 import 'package:diga/shared/extensions/context_l10n.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/constants/app_routes.dart';
 import '../../../../firebase_options.dart';
 import '../providers/auth_providers.dart';
 
@@ -24,6 +28,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _email = TextEditingController();
   final _password = TextEditingController();
   bool _busy = false;
+  bool _obscurePassword = true;
 
   @override
   void dispose() {
@@ -130,94 +135,115 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final theme = Theme.of(context);
     final firebaseReady = ref.watch(firebaseReadyProvider);
     final showDemo = !firebaseReady && kDebugMode;
 
-    return Scaffold(
-      appBar: AppBar(title: Text(l10n.loginTitle)),
-      body: AbsorbPointer(
-        absorbing: _busy,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  l10n.loginHeadline,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  l10n.loginSubtitle,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.black54),
-                ),
-                if (kIsWeb && !firebaseReady) ...[
-                  const SizedBox(height: 16),
-                  Card(
-                    color: Colors.amber.shade50,
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Text(
-                        DefaultFirebaseOptions.isWebConfigured
-                            ? l10n.authErrorGeneric
-                            : l10n.authFirebaseWebSetup,
-                        style: const TextStyle(fontSize: 13, height: 1.4),
-                      ),
-                    ),
-                  ),
-                ],
-                const SizedBox(height: 24),
-                if (firebaseReady) ...[
-                  GoogleSignInButton(onPressed: _signInWithGoogle, busy: _busy),
-                  const SizedBox(height: 16),
-                  AuthDividerLabel(label: l10n.authOrContinueWith),
-                  const SizedBox(height: 16),
-                ],
-                TextFormField(
-                  controller: _email,
-                  decoration: InputDecoration(labelText: l10n.authEmailLabel),
-                  keyboardType: TextInputType.emailAddress,
-                  autocorrect: false,
-                  textInputAction: TextInputAction.next,
-                  validator: (v) => InputValidators.email(v, l10n),
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: _password,
-                  decoration: InputDecoration(labelText: l10n.authPasswordLabel),
-                  obscureText: true,
-                  textInputAction: TextInputAction.done,
-                  onFieldSubmitted: (_) => _submit(),
-                  validator: (v) => InputValidators.password(v, l10n),
-                ),
-                const SizedBox(height: 8),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(onPressed: _forgotPassword, child: Text(l10n.authForgotPassword)),
-                ),
-                const SizedBox(height: 8),
-                FilledButton(onPressed: _busy ? null : _submit, child: Text(l10n.authSignInCta)),
-                const SizedBox(height: 12),
-                OutlinedButton(
-                  onPressed: _busy ? null : () => context.push(AppRoutes.register),
-                  child: Text(l10n.authNoAccountLink),
-                ),
-                if (showDemo) ...[
-                  const SizedBox(height: 24),
-                  OutlinedButton(
-                    onPressed: _busy ? null : _demoMode,
-                    child: Text(l10n.demoContinueButton),
-                  ),
-                ],
-                if (_busy) const Padding(padding: EdgeInsets.only(top: 24), child: Center(child: CircularProgressIndicator())),
-              ],
+    return AuthPageShell(
+      busy: _busy,
+      form: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              l10n.loginTitle,
+              style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
             ),
-          ),
+            const SizedBox(height: AppSpacing.xxs),
+            Text(
+              l10n.authSignInCta,
+              style: theme.textTheme.bodySmall?.copyWith(color: AppColors.textMuted),
+            ),
+            if (kIsWeb && !firebaseReady) ...[
+              const SizedBox(height: AppSpacing.md),
+              Container(
+                padding: const EdgeInsets.all(AppSpacing.sm),
+                decoration: BoxDecoration(
+                  color: AppColors.warningSoft,
+                  borderRadius: BorderRadius.circular(AppRadii.sm),
+                  border: Border.all(color: AppColors.warning.withValues(alpha: 0.35)),
+                ),
+                child: Text(
+                  DefaultFirebaseOptions.isWebConfigured ? l10n.authErrorGeneric : l10n.authFirebaseWebSetup,
+                  style: theme.textTheme.bodySmall?.copyWith(height: 1.4),
+                ),
+              ),
+            ],
+            const SizedBox(height: AppSpacing.lg),
+            if (firebaseReady) ...[
+              GoogleSignInButton(onPressed: _signInWithGoogle, busy: _busy),
+              const SizedBox(height: AppSpacing.lg),
+              AuthDividerLabel(label: l10n.authOrContinueWith),
+              const SizedBox(height: AppSpacing.lg),
+            ],
+            AuthTextField(
+              controller: _email,
+              label: l10n.authEmailLabel,
+              icon: Icons.mail_outline_rounded,
+              keyboardType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.next,
+              validator: (v) => InputValidators.email(v, l10n),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            AuthTextField(
+              controller: _password,
+              label: l10n.authPasswordLabel,
+              icon: Icons.lock_outline_rounded,
+              obscureText: _obscurePassword,
+              textInputAction: TextInputAction.done,
+              onFieldSubmitted: (_) => _submit(),
+              validator: (v) => InputValidators.password(v, l10n),
+              suffix: IconButton(
+                icon: Icon(
+                  _obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                  size: 20,
+                  color: AppColors.textMuted,
+                ),
+                onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+              ),
+            ),
+            const SizedBox(height: AppSpacing.xs),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: _forgotPassword,
+                style: TextButton.styleFrom(
+                  foregroundColor: AppColors.primary,
+                  textStyle: const TextStyle(fontWeight: FontWeight.w600),
+                ),
+                child: Text(l10n.authForgotPassword),
+              ),
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            FilledButton(
+              onPressed: _busy ? null : _submit,
+              style: FilledButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadii.md)),
+                elevation: 0,
+              ),
+              child: Text(l10n.authSignInCta, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
+            ),
+            if (showDemo) ...[
+              const SizedBox(height: AppSpacing.sm),
+              TextButton(
+                onPressed: _busy ? null : _demoMode,
+                child: Text(l10n.demoContinueButton),
+              ),
+            ],
+          ],
         ),
+      ),
+      footer: TextButton(
+        onPressed: _busy ? null : () => context.push(AppRoutes.register),
+        style: TextButton.styleFrom(
+          foregroundColor: AppColors.primary,
+          textStyle: const TextStyle(fontWeight: FontWeight.w600),
+        ),
+        child: Text(l10n.authNoAccountLink),
       ),
     );
   }

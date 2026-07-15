@@ -338,6 +338,138 @@ abstract class AppLocalizations {
   /// **'Add your Web app ID in Firebase Console → Project settings → Your apps → Web, then paste the appId into lib/firebase_options.dart.'**
   String get authFirebaseWebSetup;
 
+  /// No description provided for @aiReportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI learning report'**
+  String get aiReportTitle;
+
+  /// No description provided for @aiReportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Personalized coaching from your exam answers'**
+  String get aiReportSubtitle;
+
+  /// No description provided for @aiReportWeakAreas.
+  ///
+  /// In en, this message translates to:
+  /// **'Focus areas'**
+  String get aiReportWeakAreas;
+
+  /// No description provided for @aiReportFocusTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Missed items to review'**
+  String get aiReportFocusTitle;
+
+  /// No description provided for @aiReportTipsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Teaching tips'**
+  String get aiReportTipsTitle;
+
+  /// No description provided for @aiReportNextStepsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested next steps'**
+  String get aiReportNextStepsTitle;
+
+  /// No description provided for @aiReportSubmitCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit learning report'**
+  String get aiReportSubmitCta;
+
+  /// No description provided for @aiReportSubmitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Learning report submitted'**
+  String get aiReportSubmitted;
+
+  /// No description provided for @aiReportWeakPhaseGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'Review missed rationales carefully'**
+  String get aiReportWeakPhaseGeneral;
+
+  /// No description provided for @aiReportTipPerfect1.
+  ///
+  /// In en, this message translates to:
+  /// **'Strong indication and safety reasoning — keep documenting baselines explicitly.'**
+  String get aiReportTipPerfect1;
+
+  /// No description provided for @aiReportTipPerfect2.
+  ///
+  /// In en, this message translates to:
+  /// **'Try the next scenario to stretch follow-up and adherence coaching.'**
+  String get aiReportTipPerfect2;
+
+  /// No description provided for @aiReportTipReviewWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-read rationales for missed items before moving on.'**
+  String get aiReportTipReviewWrong;
+
+  /// No description provided for @aiReportTipDiagnose.
+  ///
+  /// In en, this message translates to:
+  /// **'Tighten indication fit and red-flag exclusion before prescribing.'**
+  String get aiReportTipDiagnose;
+
+  /// No description provided for @aiReportTipPrescribe.
+  ///
+  /// In en, this message translates to:
+  /// **'Link DiGA choice to goals, exclusions, and patient capacity.'**
+  String get aiReportTipPrescribe;
+
+  /// No description provided for @aiReportTipFollowUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Make follow-up timing and stop rules explicit in your plan.'**
+  String get aiReportTipFollowUp;
+
+  /// No description provided for @aiReportTipDocumentation.
+  ///
+  /// In en, this message translates to:
+  /// **'Document diagnosis, rationale, goals, and review date as a mini chart note.'**
+  String get aiReportTipDocumentation;
+
+  /// No description provided for @aiReportNextRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retake this scenario after reviewing the focus items.'**
+  String get aiReportNextRetry;
+
+  /// No description provided for @aiReportNextReviewCompanion.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Prescription Companion and check the documentation checklist.'**
+  String get aiReportNextReviewCompanion;
+
+  /// No description provided for @aiReportNextContinueScenarios.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue to the next unlocked scenario when ready.'**
+  String get aiReportNextContinueScenarios;
+
+  /// No description provided for @aiReportSummaryExcellent.
+  ///
+  /// In en, this message translates to:
+  /// **'Excellent exam ({score}%). Your pathway matches key DiGA prescribing standards.'**
+  String aiReportSummaryExcellent(int score);
+
+  /// No description provided for @aiReportSummaryPassed.
+  ///
+  /// In en, this message translates to:
+  /// **'You passed with {score}% and missed {wrongCount} item(s). Strengthen the focus areas below, then continue.'**
+  String aiReportSummaryPassed(int score, int wrongCount);
+
+  /// No description provided for @aiReportSummaryFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Score {score}% — below the pass mark. Review the {wrongCount} missed item(s) and retry when ready.'**
+  String aiReportSummaryFailed(int score, int wrongCount);
+
   /// No description provided for @navHome.
   ///
   /// In en, this message translates to:

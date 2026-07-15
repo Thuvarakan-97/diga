@@ -47,6 +47,45 @@
   "authErrorNetwork": "Network error. Check your connection and try again.",
   "authErrorGoogleCancelled": "Google sign-in was cancelled.",
   "authFirebaseWebSetup": "Add your Web app ID in Firebase Console → Project settings → Your apps → Web, then paste the appId into lib/firebase_options.dart.",
+  "aiReportTitle": "AI learning report",
+  "aiReportSubtitle": "Personalized coaching from your exam answers",
+  "aiReportWeakAreas": "Focus areas",
+  "aiReportFocusTitle": "Missed items to review",
+  "aiReportTipsTitle": "Teaching tips",
+  "aiReportNextStepsTitle": "Suggested next steps",
+  "aiReportSubmitCta": "Submit learning report",
+  "aiReportSubmitted": "Learning report submitted",
+  "aiReportWeakPhaseGeneral": "Review missed rationales carefully",
+  "aiReportTipPerfect1": "Strong indication and safety reasoning — keep documenting baselines explicitly.",
+  "aiReportTipPerfect2": "Try the next scenario to stretch follow-up and adherence coaching.",
+  "aiReportTipReviewWrong": "Re-read rationales for missed items before moving on.",
+  "aiReportTipDiagnose": "Tighten indication fit and red-flag exclusion before prescribing.",
+  "aiReportTipPrescribe": "Link DiGA choice to goals, exclusions, and patient capacity.",
+  "aiReportTipFollowUp": "Make follow-up timing and stop rules explicit in your plan.",
+  "aiReportTipDocumentation": "Document diagnosis, rationale, goals, and review date as a mini chart note.",
+  "aiReportNextRetry": "Retake this scenario after reviewing the focus items.",
+  "aiReportNextReviewCompanion": "Open Prescription Companion and check the documentation checklist.",
+  "aiReportNextContinueScenarios": "Continue to the next unlocked scenario when ready.",
+  "aiReportSummaryExcellent": "Excellent exam ({score}%). Your pathway matches key DiGA prescribing standards.",
+  "@aiReportSummaryExcellent": {
+    "placeholders": {
+      "score": { "type": "int" }
+    }
+  },
+  "aiReportSummaryPassed": "You passed with {score}% and missed {wrongCount} item(s). Strengthen the focus areas below, then continue.",
+  "@aiReportSummaryPassed": {
+    "placeholders": {
+      "score": { "type": "int" },
+      "wrongCount": { "type": "int" }
+    }
+  },
+  "aiReportSummaryFailed": "Score {score}% — below the pass mark. Review the {wrongCount} missed item(s) and retry when ready.",
+  "@aiReportSummaryFailed": {
+    "placeholders": {
+      "score": { "type": "int" },
+      "wrongCount": { "type": "int" }
+    }
+  },
   "navHome": "Home",
   "navModules": "Modules",
   "navCompanion": "Companion",

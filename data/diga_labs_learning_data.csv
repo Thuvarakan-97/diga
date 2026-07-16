@@ -1,0 +1,31 @@
+learner_id,session_date,domain_id,domain_name,scenario_id,scenario_title,questions_total,correct_answers,score_percent,diagnosis_percent,prescribe_percent,follow_up_percent,passed,learning_report_submitted,weak_phases,xp_earned,language,duration_minutes
+L001,2026-06-02,mental,Mental Health,mh-1.1,Which depression DiGA and why,5,4,80,50,100,100,true,true,diagnose,140,en,12
+L001,2026-06-05,mental,Mental Health,mh-1.2,The absolute contraindication,5,5,100,100,100,100,true,true,,160,en,10
+L002,2026-06-03,mental,Mental Health,mh-1.1,Which depression DiGA and why,5,3,60,50,50,100,true,true,"diagnose;prescribe",120,de,15
+L002,2026-06-08,msk,Musculoskeletal System,msk-1.1,Chronic low back pain DiGA selection,5,2,40,0,50,50,false,true,"diagnose;prescribe;follow_up",60,de,18
+L003,2026-06-04,uro,Urogenital System,uro-1.1,Stress incontinence pathway,5,4,80,100,50,100,true,false,prescribe,140,en,11
+L003,2026-06-10,meta,Metabolic Diseases,meta-1.1,Type 2 diabetes self-management DiGA,5,3,60,50,100,50,true,true,"diagnose;follow_up",120,en,14
+L004,2026-06-06,neuro,Nervous System,neuro-1.1,Chronic tinnitus DigA counselling,5,5,100,100,100,100,true,true,,160,de,9
+L004,2026-06-11,cvs,CVS and Oncology,cvs-1.1,Home blood pressure companion,5,3,60,50,50,100,true,true,"diagnose;prescribe",120,de,16
+L005,2026-06-07,mental,Mental Health,mh-2.1,Somnio vs HelloBetter Schlafen,5,4,80,100,100,50,true,true,follow_up,140,en,13
+L005,2026-06-12,msk,Musculoskeletal System,msk-1.1,Chronic low back pain DiGA selection,5,4,80,50,100,100,true,true,diagnose,140,en,12
+L006,2026-06-09,mental,Mental Health,mh-1.1,Which depression DiGA and why,5,1,20,0,0,50,false,true,"diagnose;prescribe;follow_up",40,en,20
+L006,2026-06-14,mental,Mental Health,mh-1.1,Which depression DiGA and why,5,4,80,100,50,100,true,true,prescribe,140,en,11
+L007,2026-06-13,uro,Urogenital System,uro-1.1,Stress incontinence pathway,5,5,100,100,100,100,true,false,,160,de,8
+L007,2026-06-15,meta,Metabolic Diseases,meta-1.2,Obesity DiGA exclusion screen,5,2,40,50,0,50,false,true,"prescribe;follow_up",60,de,17
+L008,2026-06-16,neuro,Nervous System,neuro-1.1,Chronic tinnitus DigA counselling,5,3,60,50,100,50,true,true,"diagnose;follow_up",120,en,14
+L008,2026-06-18,cvs,CVS and Oncology,cvs-1.1,Home blood pressure companion,5,4,80,100,50,100,true,true,prescribe,140,en,12
+L009,2026-06-17,mental,Mental Health,mh-1.2,The absolute contraindication,5,4,80,50,100,100,true,true,diagnose,140,de,13
+L009,2026-06-20,msk,Musculoskeletal System,msk-1.2,Red-flag reassessment after DiGA start,5,5,100,100,100,100,true,true,,160,de,10
+L010,2026-06-19,meta,Metabolic Diseases,meta-1.1,Type 2 diabetes self-management DiGA,5,3,60,100,50,50,true,false,"prescribe;follow_up",120,en,15
+L010,2026-06-22,uro,Urogenital System,uro-1.1,Stress incontinence pathway,5,2,40,0,50,50,false,true,"diagnose;prescribe;follow_up",60,en,19
+L011,2026-06-21,cvs,CVS and Oncology,cvs-1.2,Post-MI digital support alignment,5,4,80,100,100,50,true,true,follow_up,140,de,12
+L011,2026-06-24,neuro,Nervous System,neuro-1.2,Migraine DiGA vs tinnitus pathway,5,3,60,50,50,100,true,true,"diagnose;prescribe",120,de,16
+L012,2026-06-23,mental,Mental Health,mh-1.1,Which depression DiGA and why,5,5,100,100,100,100,true,true,,160,en,9
+L012,2026-06-25,msk,Musculoskeletal System,msk-1.1,Chronic low back pain DiGA selection,5,3,60,50,100,50,true,true,"diagnose;follow_up",120,en,14
+L013,2026-06-26,mental,Mental Health,mh-2.1,Somnio vs HelloBetter Schlafen,5,2,40,50,0,50,false,true,"prescribe;follow_up",60,de,18
+L013,2026-06-28,mental,Mental Health,mh-2.1,Somnio vs HelloBetter Schlafen,5,4,80,100,50,100,true,true,prescribe,140,de,11
+L014,2026-06-27,uro,Urogenital System,uro-1.2,Pelvic floor adherence barriers,5,4,80,50,100,100,true,false,diagnose,140,en,12
+L014,2026-06-29,meta,Metabolic Diseases,meta-1.1,Type 2 diabetes self-management DiGA,5,5,100,100,100,100,true,true,,160,en,8
+L015,2026-06-30,cvs,CVS and Oncology,cvs-1.1,Home blood pressure companion,5,3,60,50,50,100,true,true,"diagnose;prescribe",120,de,15
+L015,2026-07-02,neuro,Nervous System,neuro-1.1,Chronic tinnitus DigA counselling,5,4,80,100,100,50,true,true,follow_up,140,de,13

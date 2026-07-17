@@ -470,6 +470,360 @@ abstract class AppLocalizations {
   /// **'Score {score}% — below the pass mark. Review the {wrongCount} missed item(s) and retry when ready.'**
   String aiReportSummaryFailed(int score, int wrongCount);
 
+  /// No description provided for @aiReportStrengths.
+  ///
+  /// In en, this message translates to:
+  /// **'Strengths'**
+  String get aiReportStrengths;
+
+  /// No description provided for @aiCoachHubTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Coach'**
+  String get aiCoachHubTitle;
+
+  /// No description provided for @aiCoachHubSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Interactive coaching powered by your exam results'**
+  String get aiCoachHubSubtitle;
+
+  /// No description provided for @aiCoachHubTutor.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask AI Tutor'**
+  String get aiCoachHubTutor;
+
+  /// No description provided for @aiCoachHubTutorDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Get explanations for wrong answers and prescribing tips'**
+  String get aiCoachHubTutorDesc;
+
+  /// No description provided for @aiCoachHubPatient.
+  ///
+  /// In en, this message translates to:
+  /// **'Practice patient talk'**
+  String get aiCoachHubPatient;
+
+  /// No description provided for @aiCoachHubPatientDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Simulate shared decision-making with {name}'**
+  String aiCoachHubPatientDesc(String name);
+
+  /// No description provided for @aiCoachHubDoc.
+  ///
+  /// In en, this message translates to:
+  /// **'Documentation coach'**
+  String get aiCoachHubDoc;
+
+  /// No description provided for @aiCoachHubDocDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a chart note and get instant checklist feedback'**
+  String get aiCoachHubDocDesc;
+
+  /// No description provided for @aiTutorChatTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Tutor'**
+  String get aiTutorChatTitle;
+
+  /// No description provided for @aiTutorChatSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Coaching for {domain}'**
+  String aiTutorChatSubtitle(String domain);
+
+  /// No description provided for @aiPatientChatTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient conversation'**
+  String get aiPatientChatTitle;
+
+  /// No description provided for @aiPatientChatSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Practice explaining DiGA to {name}'**
+  String aiPatientChatSubtitle(String name);
+
+  /// No description provided for @aiTutorInputHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask about your exam, documentation, or patient counselling…'**
+  String get aiTutorInputHint;
+
+  /// No description provided for @aiTutorOpeningPerfect.
+  ///
+  /// In en, this message translates to:
+  /// **'Great work — {score}% in {domain}. Ask me how to document your decision or practise explaining DiGA to the patient.'**
+  String aiTutorOpeningPerfect(int score, String domain);
+
+  /// No description provided for @aiTutorOpeningWithMistakes.
+  ///
+  /// In en, this message translates to:
+  /// **'I reviewed your {score}% result in {domain}. You missed {count} item(s). Tap a quick question below or ask me anything.'**
+  String aiTutorOpeningWithMistakes(int score, int count, String domain);
+
+  /// No description provided for @aiTutorQuickWrongAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Why was my answer wrong?'**
+  String get aiTutorQuickWrongAnswer;
+
+  /// No description provided for @aiTutorQuickDocumentation.
+  ///
+  /// In en, this message translates to:
+  /// **'How should I document this?'**
+  String get aiTutorQuickDocumentation;
+
+  /// No description provided for @aiTutorQuickPatientTalk.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I explain DiGA to the patient?'**
+  String get aiTutorQuickPatientTalk;
+
+  /// No description provided for @aiTutorQuickWeakPhase.
+  ///
+  /// In en, this message translates to:
+  /// **'Help with {phase}'**
+  String aiTutorQuickWeakPhase(String phase);
+
+  /// No description provided for @aiTutorNoMistakes.
+  ///
+  /// In en, this message translates to:
+  /// **'You answered all questions correctly. Focus on documentation clarity and patient expectations.'**
+  String get aiTutorNoMistakes;
+
+  /// No description provided for @aiTutorWrongIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Here is what the clinical rationales say about your missed items:'**
+  String get aiTutorWrongIntro;
+
+  /// No description provided for @aiTutorDocumentationAdvice.
+  ///
+  /// In en, this message translates to:
+  /// **'A solid DiGA chart note should include: diagnosis (with ICD if possible), prior non-digital care tried, why this programme fits the patient, exclusion screening, measurable goals, and a follow-up review date.'**
+  String get aiTutorDocumentationAdvice;
+
+  /// No description provided for @aiTutorPatientAdvice.
+  ///
+  /// In en, this message translates to:
+  /// **'For {name}, use plain language: explain what the app does daily, realistic time commitment, that it complements (not replaces) medical care, and when you will review progress together.'**
+  String aiTutorPatientAdvice(String name, String domain);
+
+  /// No description provided for @aiTutorFollowUpAdvice.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule a concrete review (e.g. 4–6 weeks). Document adherence barriers, symptom scores used, and stop rules if red flags appear.'**
+  String get aiTutorFollowUpAdvice;
+
+  /// No description provided for @aiTutorSafetyAdvice.
+  ///
+  /// In en, this message translates to:
+  /// **'Always document screened contraindications and red flags before issuing a DiGA code. If new alarm symptoms appear, in-person reassessment takes priority over app continuation.'**
+  String get aiTutorSafetyAdvice;
+
+  /// No description provided for @aiTutorPrescribeAdvice.
+  ///
+  /// In en, this message translates to:
+  /// **'In {domain}, match the DiGA to indication, patient capacity, and evidence — not interface preference alone.'**
+  String aiTutorPrescribeAdvice(String domain);
+
+  /// No description provided for @aiTutorDiagnoseAdvice.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm the indication fits the approved DiGA label, chronicity criteria are met, and acute red-flag causes are excluded before moving to prescription.'**
+  String get aiTutorDiagnoseAdvice;
+
+  /// No description provided for @aiTutorWeakPhaseAdvice.
+  ///
+  /// In en, this message translates to:
+  /// **'Your weaker area was {phases}. Re-read the companion checklist and one scenario rationale in that phase before continuing.'**
+  String aiTutorWeakPhaseAdvice(String phases);
+
+  /// No description provided for @aiTutorFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'I can help with wrong answers, documentation, patient counselling, safety screening, and follow-up planning. Try one of the suggested questions above.'**
+  String get aiTutorFallback;
+
+  /// No description provided for @aiTutorFallbackWithHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on your exam, here is a key teaching point:'**
+  String get aiTutorFallbackWithHint;
+
+  /// No description provided for @aiPatientChipExpectations.
+  ///
+  /// In en, this message translates to:
+  /// **'What should I expect from the app?'**
+  String get aiPatientChipExpectations;
+
+  /// No description provided for @aiPatientChipTime.
+  ///
+  /// In en, this message translates to:
+  /// **'How much time per day?'**
+  String get aiPatientChipTime;
+
+  /// No description provided for @aiPatientChipPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Is my data private?'**
+  String get aiPatientChipPrivacy;
+
+  /// No description provided for @aiPatientReplySchedule.
+  ///
+  /// In en, this message translates to:
+  /// **'That sounds manageable. I can try 15–20 minutes in the evening if you think it will really help.'**
+  String get aiPatientReplySchedule;
+
+  /// No description provided for @aiPatientReplySafety.
+  ///
+  /// In en, this message translates to:
+  /// **'Good to know it is not a replacement for my doctor. What symptoms should make me contact you sooner?'**
+  String get aiPatientReplySafety;
+
+  /// No description provided for @aiPatientReplyEvidence.
+  ///
+  /// In en, this message translates to:
+  /// **'I would feel better knowing there is research behind it. Can you tell me what improvements people usually see?'**
+  String get aiPatientReplyEvidence;
+
+  /// No description provided for @aiPatientReplyGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you for explaining. I still want to understand how this fits with my other treatment.'**
+  String get aiPatientReplyGeneral;
+
+  /// No description provided for @aiDocCoachTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Documentation coach'**
+  String get aiDocCoachTitle;
+
+  /// No description provided for @aiDocCoachSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft a mini chart note — AI checks completeness instantly'**
+  String get aiDocCoachSubtitle;
+
+  /// No description provided for @aiDocCoachHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Example: F32.1 moderate depression. Patient declined medication. Prior sleep hygiene attempted. Prescribing Selfapy with goal to reduce PHQ-9. No bipolar history. Review in 6 weeks.'**
+  String get aiDocCoachHint;
+
+  /// No description provided for @aiDocCoachAnalyse.
+  ///
+  /// In en, this message translates to:
+  /// **'Analyse my documentation'**
+  String get aiDocCoachAnalyse;
+
+  /// No description provided for @aiDocCoachScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Documentation score: {score}%'**
+  String aiDocCoachScore(int score);
+
+  /// No description provided for @aiDocTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Please write at least a short chart note (2–3 sentences).'**
+  String get aiDocTooShort;
+
+  /// No description provided for @aiDocCheckDiagnosis.
+  ///
+  /// In en, this message translates to:
+  /// **'Diagnosis documented'**
+  String get aiDocCheckDiagnosis;
+
+  /// No description provided for @aiDocCheckIndication.
+  ///
+  /// In en, this message translates to:
+  /// **'Indication / eligibility noted'**
+  String get aiDocCheckIndication;
+
+  /// No description provided for @aiDocCheckRationale.
+  ///
+  /// In en, this message translates to:
+  /// **'Prescribing rationale'**
+  String get aiDocCheckRationale;
+
+  /// No description provided for @aiDocCheckGoals.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient goals stated'**
+  String get aiDocCheckGoals;
+
+  /// No description provided for @aiDocCheckFollowUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow-up plan'**
+  String get aiDocCheckFollowUp;
+
+  /// No description provided for @aiDocCheckSafety.
+  ///
+  /// In en, this message translates to:
+  /// **'Safety / contraindications'**
+  String get aiDocCheckSafety;
+
+  /// No description provided for @aiDocFeedbackExcellent.
+  ///
+  /// In en, this message translates to:
+  /// **'Excellent documentation — this note would support a defensible DiGA prescription.'**
+  String get aiDocFeedbackExcellent;
+
+  /// No description provided for @aiDocFeedbackGood.
+  ///
+  /// In en, this message translates to:
+  /// **'Good note. Add any missing checklist items before finalising the prescription.'**
+  String get aiDocFeedbackGood;
+
+  /// No description provided for @aiDocFeedbackPartial.
+  ///
+  /// In en, this message translates to:
+  /// **'Partial documentation. Several key elements are still missing for safe DiGA prescribing.'**
+  String get aiDocFeedbackPartial;
+
+  /// No description provided for @aiDocFeedbackNeedsWork.
+  ///
+  /// In en, this message translates to:
+  /// **'This note needs more structure. Include diagnosis, rationale, goals, safety screen, and follow-up.'**
+  String get aiDocFeedbackNeedsWork;
+
+  /// No description provided for @aiRecommendationPersonalised.
+  ///
+  /// In en, this message translates to:
+  /// **'Personalised for your exam'**
+  String get aiRecommendationPersonalised;
+
+  /// No description provided for @homeAiCoachTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Coach'**
+  String get homeAiCoachTitle;
+
+  /// No description provided for @homeAiCoachSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Practice DiGA counselling, documentation & prescribing — anytime'**
+  String get homeAiCoachSubtitle;
+
+  /// No description provided for @homeAiCoachQuickSafety.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I screen contraindications?'**
+  String get homeAiCoachQuickSafety;
+
+  /// No description provided for @aiTutorOpeningHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome! I am your DiGA prescribing coach. Ask about indication, documentation, patient counselling, or safety screening — no exam required.'**
+  String get aiTutorOpeningHome;
+
   /// No description provided for @navHome.
   ///
   /// In en, this message translates to:

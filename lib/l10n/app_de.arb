@@ -86,6 +86,119 @@
       "wrongCount": { "type": "int" }
     }
   },
+  "aiReportStrengths": "Stärken",
+  "aiCoachHubTitle": "KI-Coach",
+  "aiCoachHubSubtitle": "Interaktives Coaching basierend auf Ihrem Prüfungsergebnis",
+  "aiCoachHubTutor": "KI-Tutor fragen",
+  "aiCoachHubTutorDesc": "Erklärungen zu Fehlern und Verordnungstipps erhalten",
+  "aiCoachHubPatient": "Patientengespräch üben",
+  "aiCoachHubPatientDesc": "Gemeinsame Entscheidungsfindung mit {name} simulieren",
+  "@aiCoachHubPatientDesc": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "aiCoachHubDoc": "Dokumentations-Coach",
+  "aiCoachHubDocDesc": "Kurznotiz schreiben und sofort Checklisten-Feedback erhalten",
+  "aiTutorChatTitle": "KI-Tutor",
+  "aiTutorChatSubtitle": "Coaching für {domain}",
+  "@aiTutorChatSubtitle": {
+    "placeholders": {
+      "domain": { "type": "String" }
+    }
+  },
+  "aiPatientChatTitle": "Patientengespräch",
+  "aiPatientChatSubtitle": "DiGA-Erklärung für {name} üben",
+  "@aiPatientChatSubtitle": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "aiTutorInputHint": "Fragen zu Prüfung, Dokumentation oder Patientenaufklärung…",
+  "aiTutorOpeningPerfect": "Sehr gut — {score} % in {domain}. Fragen Sie mich zur Dokumentation oder zur Patientenaufklärung.",
+  "@aiTutorOpeningPerfect": {
+    "placeholders": {
+      "score": { "type": "int" },
+      "domain": { "type": "String" }
+    }
+  },
+  "aiTutorOpeningWithMistakes": "Ich habe Ihr Ergebnis ({score} % in {domain}) ausgewertet. Sie haben {count} Frage(n) verfehlt. Nutzen Sie die Schnellfragen oder stellen Sie eine eigene Frage.",
+  "@aiTutorOpeningWithMistakes": {
+    "placeholders": {
+      "score": { "type": "int" },
+      "count": { "type": "int" },
+      "domain": { "type": "String" }
+    }
+  },
+  "aiTutorQuickWrongAnswer": "Warum war meine Antwort falsch?",
+  "aiTutorQuickDocumentation": "Wie dokumentiere ich das?",
+  "aiTutorQuickPatientTalk": "Wie erkläre ich DiGA dem Patienten?",
+  "aiTutorQuickWeakPhase": "Hilfe bei {phase}",
+  "@aiTutorQuickWeakPhase": {
+    "placeholders": {
+      "phase": { "type": "String" }
+    }
+  },
+  "aiTutorNoMistakes": "Alle Fragen richtig beantwortet. Konzentrieren Sie sich auf klare Dokumentation und Patientenerwartungen.",
+  "aiTutorWrongIntro": "Die klinischen Begründungen zu Ihren Fehlern:",
+  "aiTutorDocumentationAdvice": "Eine solide DiGA-Dokumentation enthält: Diagnose (mit ICD wenn möglich), bisherige nicht-digitale Maßnahmen, Passung des Programms, Ausschlusskriterien, messbare Ziele und ein Nachsorgetermin.",
+  "aiTutorPatientAdvice": "Für {name} in einfacher Sprache: tägliche Nutzung, realistischer Zeitaufwand, Ergänzung (nicht Ersatz) der medizinischen Betreuung, und gemeinsamer Verlaufskontrolltermin.",
+  "@aiTutorPatientAdvice": {
+    "placeholders": {
+      "name": { "type": "String" },
+      "domain": { "type": "String" }
+    }
+  },
+  "aiTutorFollowUpAdvice": "Konkreten Kontrolltermin festlegen (z. B. 4–6 Wochen). Adhärenzbarrieren, verwendete Scores und Abbruchkriterien bei Warnzeichen dokumentieren.",
+  "aiTutorSafetyAdvice": "Ausschlusskriterien und Warnzeichen vor Codeausstellung dokumentieren. Bei neuen Alarmsymptomen hat die persönliche Wiedervorstellung Vorrang vor App-Fortführung.",
+  "aiTutorPrescribeAdvice": "In {domain}: DiGA an Indikation, Patientenkapazität und Evidenz anpassen — nicht nur nach Oberfläche wählen.",
+  "@aiTutorPrescribeAdvice": {
+    "placeholders": {
+      "domain": { "type": "String" }
+    }
+  },
+  "aiTutorDiagnoseAdvice": "Indikation muss zum zugelassenen DiGA-Label passen, Chronizitätskriterien erfüllt sein und akute Warnzeichen ausgeschlossen werden.",
+  "aiTutorWeakPhaseAdvice": "Schwächerer Bereich: {phases}. Companion-Checkliste und eine Szenario-Begründung in dieser Phase nachlesen.",
+  "@aiTutorWeakPhaseAdvice": {
+    "placeholders": {
+      "phases": { "type": "String" }
+    }
+  },
+  "aiTutorFallback": "Ich helfe bei Fehlern, Dokumentation, Patientenaufklärung, Sicherheitsscreening und Nachsorgeplanung. Nutzen Sie die Vorschläge oben.",
+  "aiTutorFallbackWithHint": "Basierend auf Ihrer Prüfung — wichtiger Lernpunkt:",
+  "aiPatientChipExpectations": "Was kann ich von der App erwarten?",
+  "aiPatientChipTime": "Wie viel Zeit pro Tag?",
+  "aiPatientChipPrivacy": "Sind meine Daten privat?",
+  "aiPatientReplySchedule": "Das klingt machbar. Ich kann abends 15–20 Minuten versuchen, wenn Sie glauben, dass es wirklich hilft.",
+  "aiPatientReplySafety": "Gut zu wissen, dass es meinen Arzt nicht ersetzt. Bei welchen Symptomen soll ich Sie früher kontaktieren?",
+  "aiPatientReplyEvidence": "Ich würde mich sicherer fühlen, wenn es Studien gibt. Welche Verbesserungen sehen Patienten normalerweise?",
+  "aiPatientReplyGeneral": "Danke für die Erklärung. Ich möchte noch verstehen, wie das zu meiner anderen Behandlung passt.",
+  "aiDocCoachTitle": "Dokumentations-Coach",
+  "aiDocCoachSubtitle": "Kurznotiz verfassen — KI prüft Vollständigkeit sofort",
+  "aiDocCoachHint": "Beispiel: F32.1 mittelschwere Depression. Medikation abgelehnt. Schlafhygiene versucht. Selfapy mit Ziel PHQ-9-Reduktion. Keine bipolare Vorgeschichte. Kontrolle in 6 Wochen.",
+  "aiDocCoachAnalyse": "Dokumentation analysieren",
+  "aiDocCoachScore": "Dokumentations-Score: {score} %",
+  "@aiDocCoachScore": {
+    "placeholders": {
+      "score": { "type": "int" }
+    }
+  },
+  "aiDocTooShort": "Bitte mindestens eine kurze Notiz schreiben (2–3 Sätze).",
+  "aiDocCheckDiagnosis": "Diagnose dokumentiert",
+  "aiDocCheckIndication": "Indikation / Eignung notiert",
+  "aiDocCheckRationale": "Verordnungsbegründung",
+  "aiDocCheckGoals": "Patientenziele genannt",
+  "aiDocCheckFollowUp": "Nachsorgeplan",
+  "aiDocCheckSafety": "Sicherheit / Kontraindikationen",
+  "aiDocFeedbackExcellent": "Ausgezeichnete Dokumentation — diese Notiz stützt eine vertretbare DiGA-Verordnung.",
+  "aiDocFeedbackGood": "Gute Notiz. Ergänzen Sie fehlende Checklistenpunkte vor der endgültigen Verordnung.",
+  "aiDocFeedbackPartial": "Teilweise dokumentiert. Für sichere DiGA-Verordnung fehlen noch wichtige Elemente.",
+  "aiDocFeedbackNeedsWork": "Diese Notiz braucht mehr Struktur: Diagnose, Begründung, Ziele, Sicherheitsscreening und Nachsorge.",
+  "aiRecommendationPersonalised": "Personalisiert für Ihre Prüfung",
+  "homeAiCoachTitle": "KI-Coach",
+  "homeAiCoachSubtitle": "DiGA-Aufklärung, Dokumentation & Verordnung jederzeit üben",
+  "homeAiCoachQuickSafety": "Wie screene ich Kontraindikationen?",
+  "aiTutorOpeningHome": "Willkommen! Ich bin Ihr DiGA-Verordnungs-Coach. Fragen Sie zu Indikation, Dokumentation, Patientenaufklärung oder Sicherheitsscreening — ohne Prüfung.",
   "navHome": "Start",
   "navModules": "Module",
   "navCompanion": "Begleitung",

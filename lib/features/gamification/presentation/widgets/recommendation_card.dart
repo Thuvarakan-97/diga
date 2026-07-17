@@ -1,7 +1,8 @@
-﻿import 'package:diga/features/diga_modules/presentation/models/clinical_domain_data.dart';
-import 'package:diga/core/theme/app_colors.dart';
+﻿import 'package:diga/core/theme/app_colors.dart';
 import 'package:diga/core/theme/app_spacing.dart';
 import 'package:diga/features/ai_support/domain/models/ai_recommendation.dart';
+import 'package:diga/features/diga_modules/presentation/models/clinical_domain_data.dart';
+import 'package:diga/shared/extensions/context_l10n.dart';
 import 'package:diga/shared/widgets/diga_surface_card.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +19,7 @@ class RecommendationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     final domain = ClinicalDomainData.byId(recommendation.nextDomainId);
     return DigaSurfaceCard(
       onTap: onTap,
@@ -25,7 +27,10 @@ class RecommendationCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('AI-ready recommendation', style: theme.textTheme.labelMedium?.copyWith(color: AppColors.accent, fontWeight: FontWeight.w700)),
+          Text(
+            l10n.aiRecommendationPersonalised,
+            style: theme.textTheme.labelMedium?.copyWith(color: AppColors.accent, fontWeight: FontWeight.w700),
+          ),
           const SizedBox(height: AppSpacing.sm),
           Row(
             children: [

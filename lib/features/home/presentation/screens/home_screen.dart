@@ -7,6 +7,7 @@ import 'package:diga/features/diga_modules/presentation/models/clinical_domain_d
 import 'package:diga/features/diga_modules/presentation/widgets/clinical_domain_card.dart';
 import 'package:diga/features/diga_modules/presentation/widgets/domain_cover_illustration.dart';
 import 'package:diga/features/diga_modules/presentation/widgets/domain_visuals.dart';
+import 'package:diga/features/home/presentation/widgets/home_ai_coach_card.dart';
 import 'package:diga/shared/extensions/context_l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -55,6 +56,8 @@ class HomeScreen extends ConsumerWidget {
         ),
         children: [
           _HeroBanner(greeting: _greeting(context), name: name, subtitle: l10n.homeDashboardSubtitle),
+          const SizedBox(height: AppSpacing.md),
+          const HomeAiCoachCard(),
           const SizedBox(height: AppSpacing.lg),
           Text(
             l10n.homeStatsTitle.toUpperCase(),

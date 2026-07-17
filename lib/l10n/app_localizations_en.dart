@@ -220,6 +220,228 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get aiReportStrengths => 'Strengths';
+
+  @override
+  String get aiCoachHubTitle => 'AI Coach';
+
+  @override
+  String get aiCoachHubSubtitle =>
+      'Interactive coaching powered by your exam results';
+
+  @override
+  String get aiCoachHubTutor => 'Ask AI Tutor';
+
+  @override
+  String get aiCoachHubTutorDesc =>
+      'Get explanations for wrong answers and prescribing tips';
+
+  @override
+  String get aiCoachHubPatient => 'Practice patient talk';
+
+  @override
+  String aiCoachHubPatientDesc(String name) {
+    return 'Simulate shared decision-making with $name';
+  }
+
+  @override
+  String get aiCoachHubDoc => 'Documentation coach';
+
+  @override
+  String get aiCoachHubDocDesc =>
+      'Write a chart note and get instant checklist feedback';
+
+  @override
+  String get aiTutorChatTitle => 'AI Tutor';
+
+  @override
+  String aiTutorChatSubtitle(String domain) {
+    return 'Coaching for $domain';
+  }
+
+  @override
+  String get aiPatientChatTitle => 'Patient conversation';
+
+  @override
+  String aiPatientChatSubtitle(String name) {
+    return 'Practice explaining DiGA to $name';
+  }
+
+  @override
+  String get aiTutorInputHint =>
+      'Ask about your exam, documentation, or patient counselling…';
+
+  @override
+  String aiTutorOpeningPerfect(int score, String domain) {
+    return 'Great work — $score% in $domain. Ask me how to document your decision or practise explaining DiGA to the patient.';
+  }
+
+  @override
+  String aiTutorOpeningWithMistakes(int score, int count, String domain) {
+    return 'I reviewed your $score% result in $domain. You missed $count item(s). Tap a quick question below or ask me anything.';
+  }
+
+  @override
+  String get aiTutorQuickWrongAnswer => 'Why was my answer wrong?';
+
+  @override
+  String get aiTutorQuickDocumentation => 'How should I document this?';
+
+  @override
+  String get aiTutorQuickPatientTalk => 'How do I explain DiGA to the patient?';
+
+  @override
+  String aiTutorQuickWeakPhase(String phase) {
+    return 'Help with $phase';
+  }
+
+  @override
+  String get aiTutorNoMistakes =>
+      'You answered all questions correctly. Focus on documentation clarity and patient expectations.';
+
+  @override
+  String get aiTutorWrongIntro =>
+      'Here is what the clinical rationales say about your missed items:';
+
+  @override
+  String get aiTutorDocumentationAdvice =>
+      'A solid DiGA chart note should include: diagnosis (with ICD if possible), prior non-digital care tried, why this programme fits the patient, exclusion screening, measurable goals, and a follow-up review date.';
+
+  @override
+  String aiTutorPatientAdvice(String name, String domain) {
+    return 'For $name, use plain language: explain what the app does daily, realistic time commitment, that it complements (not replaces) medical care, and when you will review progress together.';
+  }
+
+  @override
+  String get aiTutorFollowUpAdvice =>
+      'Schedule a concrete review (e.g. 4–6 weeks). Document adherence barriers, symptom scores used, and stop rules if red flags appear.';
+
+  @override
+  String get aiTutorSafetyAdvice =>
+      'Always document screened contraindications and red flags before issuing a DiGA code. If new alarm symptoms appear, in-person reassessment takes priority over app continuation.';
+
+  @override
+  String aiTutorPrescribeAdvice(String domain) {
+    return 'In $domain, match the DiGA to indication, patient capacity, and evidence — not interface preference alone.';
+  }
+
+  @override
+  String get aiTutorDiagnoseAdvice =>
+      'Confirm the indication fits the approved DiGA label, chronicity criteria are met, and acute red-flag causes are excluded before moving to prescription.';
+
+  @override
+  String aiTutorWeakPhaseAdvice(String phases) {
+    return 'Your weaker area was $phases. Re-read the companion checklist and one scenario rationale in that phase before continuing.';
+  }
+
+  @override
+  String get aiTutorFallback =>
+      'I can help with wrong answers, documentation, patient counselling, safety screening, and follow-up planning. Try one of the suggested questions above.';
+
+  @override
+  String get aiTutorFallbackWithHint =>
+      'Based on your exam, here is a key teaching point:';
+
+  @override
+  String get aiPatientChipExpectations => 'What should I expect from the app?';
+
+  @override
+  String get aiPatientChipTime => 'How much time per day?';
+
+  @override
+  String get aiPatientChipPrivacy => 'Is my data private?';
+
+  @override
+  String get aiPatientReplySchedule =>
+      'That sounds manageable. I can try 15–20 minutes in the evening if you think it will really help.';
+
+  @override
+  String get aiPatientReplySafety =>
+      'Good to know it is not a replacement for my doctor. What symptoms should make me contact you sooner?';
+
+  @override
+  String get aiPatientReplyEvidence =>
+      'I would feel better knowing there is research behind it. Can you tell me what improvements people usually see?';
+
+  @override
+  String get aiPatientReplyGeneral =>
+      'Thank you for explaining. I still want to understand how this fits with my other treatment.';
+
+  @override
+  String get aiDocCoachTitle => 'Documentation coach';
+
+  @override
+  String get aiDocCoachSubtitle =>
+      'Draft a mini chart note — AI checks completeness instantly';
+
+  @override
+  String get aiDocCoachHint =>
+      'Example: F32.1 moderate depression. Patient declined medication. Prior sleep hygiene attempted. Prescribing Selfapy with goal to reduce PHQ-9. No bipolar history. Review in 6 weeks.';
+
+  @override
+  String get aiDocCoachAnalyse => 'Analyse my documentation';
+
+  @override
+  String aiDocCoachScore(int score) {
+    return 'Documentation score: $score%';
+  }
+
+  @override
+  String get aiDocTooShort =>
+      'Please write at least a short chart note (2–3 sentences).';
+
+  @override
+  String get aiDocCheckDiagnosis => 'Diagnosis documented';
+
+  @override
+  String get aiDocCheckIndication => 'Indication / eligibility noted';
+
+  @override
+  String get aiDocCheckRationale => 'Prescribing rationale';
+
+  @override
+  String get aiDocCheckGoals => 'Patient goals stated';
+
+  @override
+  String get aiDocCheckFollowUp => 'Follow-up plan';
+
+  @override
+  String get aiDocCheckSafety => 'Safety / contraindications';
+
+  @override
+  String get aiDocFeedbackExcellent =>
+      'Excellent documentation — this note would support a defensible DiGA prescription.';
+
+  @override
+  String get aiDocFeedbackGood =>
+      'Good note. Add any missing checklist items before finalising the prescription.';
+
+  @override
+  String get aiDocFeedbackPartial =>
+      'Partial documentation. Several key elements are still missing for safe DiGA prescribing.';
+
+  @override
+  String get aiDocFeedbackNeedsWork =>
+      'This note needs more structure. Include diagnosis, rationale, goals, safety screen, and follow-up.';
+
+  @override
+  String get aiRecommendationPersonalised => 'Personalised for your exam';
+
+  @override
+  String get homeAiCoachTitle => 'AI Coach';
+
+  @override
+  String get homeAiCoachSubtitle =>
+      'Practice DiGA counselling, documentation & prescribing — anytime';
+
+  @override
+  String get homeAiCoachQuickSafety => 'How do I screen contraindications?';
+
+  @override
+  String get aiTutorOpeningHome =>
+      'Welcome! I am your DiGA prescribing coach. Ask about indication, documentation, patient counselling, or safety screening — no exam required.';
+
+  @override
   String get navHome => 'Home';
 
   @override

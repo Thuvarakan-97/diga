@@ -3,6 +3,9 @@ import 'package:diga/core/theme/app_colors.dart';
 import 'package:diga/core/theme/app_radii.dart';
 import 'package:diga/core/theme/app_spacing.dart';
 import 'package:diga/features/ai_support/presentation/providers/ai_support_providers.dart';
+import 'package:diga/features/ai_support/domain/services/ai_tutor_engine.dart';
+import 'package:diga/features/ai_support/presentation/widgets/ai_coach_hub_card.dart';
+import 'package:diga/features/ai_support/presentation/widgets/documentation_coach_card.dart';
 import 'package:diga/features/ai_support/presentation/widgets/conversation_scenario_card.dart';
 import 'package:diga/features/ai_support/presentation/widgets/exam_ai_learning_report_card.dart';
 import 'package:diga/features/diga_modules/presentation/models/clinical_domain_data.dart';
@@ -31,6 +34,17 @@ class SimulationResultScreen extends ConsumerStatefulWidget {
 
 class _SimulationResultScreenState extends ConsumerState<SimulationResultScreen> {
   bool _showCelebration = true;
+  final _docCoachKey = GlobalKey();
+
+  void _scrollToDocCoach() {
+    final target = _docCoachKey.currentContext;
+    if (target == null) return;
+    Scrollable.ensureVisible(
+      target,
+      duration: const Duration(milliseconds: 450),
+      curve: Curves.easeInOut,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +62,15 @@ class _SimulationResultScreenState extends ConsumerState<SimulationResultScreen>
     final progress = ref.read(scenarioProgressProvider.notifier);
     final nextScenarioInDomain = progress.nextPlayableInDomain(completedDomain);
     final passed = quiz.scorePercent >= examPassScoreThreshold;
+    final tutorContext = quiz.answers.isNotEmpty
+        ? AiTutorContext.fromQuiz(
+            quiz: quiz,
+            l10n: l10n,
+            patientName: scenario?.patientName,
+            conversationTitle: scenario?.title,
+            suggestedQuestions: scenario?.suggestedQuestions ?? const [],
+          )
+        : null;
 
     return Scaffold(
       backgroundColor: AppColors.surface,
@@ -94,6 +117,18 @@ class _SimulationResultScreenState extends ConsumerState<SimulationResultScreen>
                     ),
                   ),
                   const SizedBox(height: AppSpacing.md),
+                  if (tutorContext != null) ...[
+                    AiCoachHubCard(
+                      tutorContext: tutorContext,
+                      onOpenDocumentation: _scrollToDocCoach,
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    KeyedSubtree(
+                      key: _docCoachKey,
+                      child: const DocumentationCoachCard(),
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                  ],
                   if (aiReport != null) ...[
                     ExamAiLearningReportCard(
                       report: aiReport,

@@ -86,6 +86,119 @@
       "wrongCount": { "type": "int" }
     }
   },
+  "aiReportStrengths": "Strengths",
+  "aiCoachHubTitle": "AI Coach",
+  "aiCoachHubSubtitle": "Interactive coaching powered by your exam results",
+  "aiCoachHubTutor": "Ask AI Tutor",
+  "aiCoachHubTutorDesc": "Get explanations for wrong answers and prescribing tips",
+  "aiCoachHubPatient": "Practice patient talk",
+  "aiCoachHubPatientDesc": "Simulate shared decision-making with {name}",
+  "@aiCoachHubPatientDesc": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "aiCoachHubDoc": "Documentation coach",
+  "aiCoachHubDocDesc": "Write a chart note and get instant checklist feedback",
+  "aiTutorChatTitle": "AI Tutor",
+  "aiTutorChatSubtitle": "Coaching for {domain}",
+  "@aiTutorChatSubtitle": {
+    "placeholders": {
+      "domain": { "type": "String" }
+    }
+  },
+  "aiPatientChatTitle": "Patient conversation",
+  "aiPatientChatSubtitle": "Practice explaining DiGA to {name}",
+  "@aiPatientChatSubtitle": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "aiTutorInputHint": "Ask about your exam, documentation, or patient counselling…",
+  "aiTutorOpeningPerfect": "Great work — {score}% in {domain}. Ask me how to document your decision or practise explaining DiGA to the patient.",
+  "@aiTutorOpeningPerfect": {
+    "placeholders": {
+      "score": { "type": "int" },
+      "domain": { "type": "String" }
+    }
+  },
+  "aiTutorOpeningWithMistakes": "I reviewed your {score}% result in {domain}. You missed {count} item(s). Tap a quick question below or ask me anything.",
+  "@aiTutorOpeningWithMistakes": {
+    "placeholders": {
+      "score": { "type": "int" },
+      "count": { "type": "int" },
+      "domain": { "type": "String" }
+    }
+  },
+  "aiTutorQuickWrongAnswer": "Why was my answer wrong?",
+  "aiTutorQuickDocumentation": "How should I document this?",
+  "aiTutorQuickPatientTalk": "How do I explain DiGA to the patient?",
+  "aiTutorQuickWeakPhase": "Help with {phase}",
+  "@aiTutorQuickWeakPhase": {
+    "placeholders": {
+      "phase": { "type": "String" }
+    }
+  },
+  "aiTutorNoMistakes": "You answered all questions correctly. Focus on documentation clarity and patient expectations.",
+  "aiTutorWrongIntro": "Here is what the clinical rationales say about your missed items:",
+  "aiTutorDocumentationAdvice": "A solid DiGA chart note should include: diagnosis (with ICD if possible), prior non-digital care tried, why this programme fits the patient, exclusion screening, measurable goals, and a follow-up review date.",
+  "aiTutorPatientAdvice": "For {name}, use plain language: explain what the app does daily, realistic time commitment, that it complements (not replaces) medical care, and when you will review progress together.",
+  "@aiTutorPatientAdvice": {
+    "placeholders": {
+      "name": { "type": "String" },
+      "domain": { "type": "String" }
+    }
+  },
+  "aiTutorFollowUpAdvice": "Schedule a concrete review (e.g. 4–6 weeks). Document adherence barriers, symptom scores used, and stop rules if red flags appear.",
+  "aiTutorSafetyAdvice": "Always document screened contraindications and red flags before issuing a DiGA code. If new alarm symptoms appear, in-person reassessment takes priority over app continuation.",
+  "aiTutorPrescribeAdvice": "In {domain}, match the DiGA to indication, patient capacity, and evidence — not interface preference alone.",
+  "@aiTutorPrescribeAdvice": {
+    "placeholders": {
+      "domain": { "type": "String" }
+    }
+  },
+  "aiTutorDiagnoseAdvice": "Confirm the indication fits the approved DiGA label, chronicity criteria are met, and acute red-flag causes are excluded before moving to prescription.",
+  "aiTutorWeakPhaseAdvice": "Your weaker area was {phases}. Re-read the companion checklist and one scenario rationale in that phase before continuing.",
+  "@aiTutorWeakPhaseAdvice": {
+    "placeholders": {
+      "phases": { "type": "String" }
+    }
+  },
+  "aiTutorFallback": "I can help with wrong answers, documentation, patient counselling, safety screening, and follow-up planning. Try one of the suggested questions above.",
+  "aiTutorFallbackWithHint": "Based on your exam, here is a key teaching point:",
+  "aiPatientChipExpectations": "What should I expect from the app?",
+  "aiPatientChipTime": "How much time per day?",
+  "aiPatientChipPrivacy": "Is my data private?",
+  "aiPatientReplySchedule": "That sounds manageable. I can try 15–20 minutes in the evening if you think it will really help.",
+  "aiPatientReplySafety": "Good to know it is not a replacement for my doctor. What symptoms should make me contact you sooner?",
+  "aiPatientReplyEvidence": "I would feel better knowing there is research behind it. Can you tell me what improvements people usually see?",
+  "aiPatientReplyGeneral": "Thank you for explaining. I still want to understand how this fits with my other treatment.",
+  "aiDocCoachTitle": "Documentation coach",
+  "aiDocCoachSubtitle": "Draft a mini chart note — AI checks completeness instantly",
+  "aiDocCoachHint": "Example: F32.1 moderate depression. Patient declined medication. Prior sleep hygiene attempted. Prescribing Selfapy with goal to reduce PHQ-9. No bipolar history. Review in 6 weeks.",
+  "aiDocCoachAnalyse": "Analyse my documentation",
+  "aiDocCoachScore": "Documentation score: {score}%",
+  "@aiDocCoachScore": {
+    "placeholders": {
+      "score": { "type": "int" }
+    }
+  },
+  "aiDocTooShort": "Please write at least a short chart note (2–3 sentences).",
+  "aiDocCheckDiagnosis": "Diagnosis documented",
+  "aiDocCheckIndication": "Indication / eligibility noted",
+  "aiDocCheckRationale": "Prescribing rationale",
+  "aiDocCheckGoals": "Patient goals stated",
+  "aiDocCheckFollowUp": "Follow-up plan",
+  "aiDocCheckSafety": "Safety / contraindications",
+  "aiDocFeedbackExcellent": "Excellent documentation — this note would support a defensible DiGA prescription.",
+  "aiDocFeedbackGood": "Good note. Add any missing checklist items before finalising the prescription.",
+  "aiDocFeedbackPartial": "Partial documentation. Several key elements are still missing for safe DiGA prescribing.",
+  "aiDocFeedbackNeedsWork": "This note needs more structure. Include diagnosis, rationale, goals, safety screen, and follow-up.",
+  "aiRecommendationPersonalised": "Personalised for your exam",
+  "homeAiCoachTitle": "AI Coach",
+  "homeAiCoachSubtitle": "Practice DiGA counselling, documentation & prescribing — anytime",
+  "homeAiCoachQuickSafety": "How do I screen contraindications?",
+  "aiTutorOpeningHome": "Welcome! I am your DiGA prescribing coach. Ask about indication, documentation, patient counselling, or safety screening — no exam required.",
   "navHome": "Home",
   "navModules": "Modules",
   "navCompanion": "Companion",

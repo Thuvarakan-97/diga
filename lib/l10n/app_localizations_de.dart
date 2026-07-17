@@ -227,6 +227,228 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
+  String get aiReportStrengths => 'Stärken';
+
+  @override
+  String get aiCoachHubTitle => 'KI-Coach';
+
+  @override
+  String get aiCoachHubSubtitle =>
+      'Interaktives Coaching basierend auf Ihrem Prüfungsergebnis';
+
+  @override
+  String get aiCoachHubTutor => 'KI-Tutor fragen';
+
+  @override
+  String get aiCoachHubTutorDesc =>
+      'Erklärungen zu Fehlern und Verordnungstipps erhalten';
+
+  @override
+  String get aiCoachHubPatient => 'Patientengespräch üben';
+
+  @override
+  String aiCoachHubPatientDesc(String name) {
+    return 'Gemeinsame Entscheidungsfindung mit $name simulieren';
+  }
+
+  @override
+  String get aiCoachHubDoc => 'Dokumentations-Coach';
+
+  @override
+  String get aiCoachHubDocDesc =>
+      'Kurznotiz schreiben und sofort Checklisten-Feedback erhalten';
+
+  @override
+  String get aiTutorChatTitle => 'KI-Tutor';
+
+  @override
+  String aiTutorChatSubtitle(String domain) {
+    return 'Coaching für $domain';
+  }
+
+  @override
+  String get aiPatientChatTitle => 'Patientengespräch';
+
+  @override
+  String aiPatientChatSubtitle(String name) {
+    return 'DiGA-Erklärung für $name üben';
+  }
+
+  @override
+  String get aiTutorInputHint =>
+      'Fragen zu Prüfung, Dokumentation oder Patientenaufklärung…';
+
+  @override
+  String aiTutorOpeningPerfect(int score, String domain) {
+    return 'Sehr gut — $score % in $domain. Fragen Sie mich zur Dokumentation oder zur Patientenaufklärung.';
+  }
+
+  @override
+  String aiTutorOpeningWithMistakes(int score, int count, String domain) {
+    return 'Ich habe Ihr Ergebnis ($score % in $domain) ausgewertet. Sie haben $count Frage(n) verfehlt. Nutzen Sie die Schnellfragen oder stellen Sie eine eigene Frage.';
+  }
+
+  @override
+  String get aiTutorQuickWrongAnswer => 'Warum war meine Antwort falsch?';
+
+  @override
+  String get aiTutorQuickDocumentation => 'Wie dokumentiere ich das?';
+
+  @override
+  String get aiTutorQuickPatientTalk => 'Wie erkläre ich DiGA dem Patienten?';
+
+  @override
+  String aiTutorQuickWeakPhase(String phase) {
+    return 'Hilfe bei $phase';
+  }
+
+  @override
+  String get aiTutorNoMistakes =>
+      'Alle Fragen richtig beantwortet. Konzentrieren Sie sich auf klare Dokumentation und Patientenerwartungen.';
+
+  @override
+  String get aiTutorWrongIntro =>
+      'Die klinischen Begründungen zu Ihren Fehlern:';
+
+  @override
+  String get aiTutorDocumentationAdvice =>
+      'Eine solide DiGA-Dokumentation enthält: Diagnose (mit ICD wenn möglich), bisherige nicht-digitale Maßnahmen, Passung des Programms, Ausschlusskriterien, messbare Ziele und ein Nachsorgetermin.';
+
+  @override
+  String aiTutorPatientAdvice(String name, String domain) {
+    return 'Für $name in einfacher Sprache: tägliche Nutzung, realistischer Zeitaufwand, Ergänzung (nicht Ersatz) der medizinischen Betreuung, und gemeinsamer Verlaufskontrolltermin.';
+  }
+
+  @override
+  String get aiTutorFollowUpAdvice =>
+      'Konkreten Kontrolltermin festlegen (z. B. 4–6 Wochen). Adhärenzbarrieren, verwendete Scores und Abbruchkriterien bei Warnzeichen dokumentieren.';
+
+  @override
+  String get aiTutorSafetyAdvice =>
+      'Ausschlusskriterien und Warnzeichen vor Codeausstellung dokumentieren. Bei neuen Alarmsymptomen hat die persönliche Wiedervorstellung Vorrang vor App-Fortführung.';
+
+  @override
+  String aiTutorPrescribeAdvice(String domain) {
+    return 'In $domain: DiGA an Indikation, Patientenkapazität und Evidenz anpassen — nicht nur nach Oberfläche wählen.';
+  }
+
+  @override
+  String get aiTutorDiagnoseAdvice =>
+      'Indikation muss zum zugelassenen DiGA-Label passen, Chronizitätskriterien erfüllt sein und akute Warnzeichen ausgeschlossen werden.';
+
+  @override
+  String aiTutorWeakPhaseAdvice(String phases) {
+    return 'Schwächerer Bereich: $phases. Companion-Checkliste und eine Szenario-Begründung in dieser Phase nachlesen.';
+  }
+
+  @override
+  String get aiTutorFallback =>
+      'Ich helfe bei Fehlern, Dokumentation, Patientenaufklärung, Sicherheitsscreening und Nachsorgeplanung. Nutzen Sie die Vorschläge oben.';
+
+  @override
+  String get aiTutorFallbackWithHint =>
+      'Basierend auf Ihrer Prüfung — wichtiger Lernpunkt:';
+
+  @override
+  String get aiPatientChipExpectations => 'Was kann ich von der App erwarten?';
+
+  @override
+  String get aiPatientChipTime => 'Wie viel Zeit pro Tag?';
+
+  @override
+  String get aiPatientChipPrivacy => 'Sind meine Daten privat?';
+
+  @override
+  String get aiPatientReplySchedule =>
+      'Das klingt machbar. Ich kann abends 15–20 Minuten versuchen, wenn Sie glauben, dass es wirklich hilft.';
+
+  @override
+  String get aiPatientReplySafety =>
+      'Gut zu wissen, dass es meinen Arzt nicht ersetzt. Bei welchen Symptomen soll ich Sie früher kontaktieren?';
+
+  @override
+  String get aiPatientReplyEvidence =>
+      'Ich würde mich sicherer fühlen, wenn es Studien gibt. Welche Verbesserungen sehen Patienten normalerweise?';
+
+  @override
+  String get aiPatientReplyGeneral =>
+      'Danke für die Erklärung. Ich möchte noch verstehen, wie das zu meiner anderen Behandlung passt.';
+
+  @override
+  String get aiDocCoachTitle => 'Dokumentations-Coach';
+
+  @override
+  String get aiDocCoachSubtitle =>
+      'Kurznotiz verfassen — KI prüft Vollständigkeit sofort';
+
+  @override
+  String get aiDocCoachHint =>
+      'Beispiel: F32.1 mittelschwere Depression. Medikation abgelehnt. Schlafhygiene versucht. Selfapy mit Ziel PHQ-9-Reduktion. Keine bipolare Vorgeschichte. Kontrolle in 6 Wochen.';
+
+  @override
+  String get aiDocCoachAnalyse => 'Dokumentation analysieren';
+
+  @override
+  String aiDocCoachScore(int score) {
+    return 'Dokumentations-Score: $score %';
+  }
+
+  @override
+  String get aiDocTooShort =>
+      'Bitte mindestens eine kurze Notiz schreiben (2–3 Sätze).';
+
+  @override
+  String get aiDocCheckDiagnosis => 'Diagnose dokumentiert';
+
+  @override
+  String get aiDocCheckIndication => 'Indikation / Eignung notiert';
+
+  @override
+  String get aiDocCheckRationale => 'Verordnungsbegründung';
+
+  @override
+  String get aiDocCheckGoals => 'Patientenziele genannt';
+
+  @override
+  String get aiDocCheckFollowUp => 'Nachsorgeplan';
+
+  @override
+  String get aiDocCheckSafety => 'Sicherheit / Kontraindikationen';
+
+  @override
+  String get aiDocFeedbackExcellent =>
+      'Ausgezeichnete Dokumentation — diese Notiz stützt eine vertretbare DiGA-Verordnung.';
+
+  @override
+  String get aiDocFeedbackGood =>
+      'Gute Notiz. Ergänzen Sie fehlende Checklistenpunkte vor der endgültigen Verordnung.';
+
+  @override
+  String get aiDocFeedbackPartial =>
+      'Teilweise dokumentiert. Für sichere DiGA-Verordnung fehlen noch wichtige Elemente.';
+
+  @override
+  String get aiDocFeedbackNeedsWork =>
+      'Diese Notiz braucht mehr Struktur: Diagnose, Begründung, Ziele, Sicherheitsscreening und Nachsorge.';
+
+  @override
+  String get aiRecommendationPersonalised => 'Personalisiert für Ihre Prüfung';
+
+  @override
+  String get homeAiCoachTitle => 'KI-Coach';
+
+  @override
+  String get homeAiCoachSubtitle =>
+      'DiGA-Aufklärung, Dokumentation & Verordnung jederzeit üben';
+
+  @override
+  String get homeAiCoachQuickSafety => 'Wie screene ich Kontraindikationen?';
+
+  @override
+  String get aiTutorOpeningHome =>
+      'Willkommen! Ich bin Ihr DiGA-Verordnungs-Coach. Fragen Sie zu Indikation, Dokumentation, Patientenaufklärung oder Sicherheitsscreening — ohne Prüfung.';
+
+  @override
   String get navHome => 'Start';
 
   @override

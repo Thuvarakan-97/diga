@@ -1,4 +1,5 @@
 import 'package:diga/core/locale/app_locale_provider.dart';
+import 'package:diga/core/constants/app_keys.dart';
 import 'package:diga/core/theme/app_theme.dart';
 import 'package:diga/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ class DigaLabApp extends ConsumerWidget {
     final locale = ref.watch(appLocaleProvider);
 
     return MaterialApp.router(
+      scaffoldMessengerKey: appScaffoldMessengerKey,
       onGenerateTitle: (ctx) => AppLocalizations.of(ctx)!.appTitle,
       debugShowCheckedModeBanner: false,
       locale: locale,

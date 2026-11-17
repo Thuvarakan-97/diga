@@ -25,6 +25,16 @@ class AppLocalizationsEn extends AppLocalizations {
       'Educational simulation for prescribing Digital Health Applications (not a clinical tool).';
 
   @override
+  String get loginAudienceLabel => 'DIGITAL HEALTH LEARNING';
+
+  @override
+  String get loginWelcome => 'Welcome back';
+
+  @override
+  String get loginFormSubtitle =>
+      'Continue your learning journey with Digital Health Applications.';
+
+  @override
   String get loginContinueDemo => 'Continue (demo)';
 
   @override
@@ -110,7 +120,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'This email is already registered. Try signing in instead.';
 
   @override
-  String get authErrorWrongPassword => 'Incorrect email or password.';
+  String get authErrorWrongPassword =>
+      'We couldn\'t sign you in with those details. Please check your email and password, then try again.';
+
+  @override
+  String get authSignInSuccess => 'Signed in successfully. Welcome back.';
 
   @override
   String get authErrorUserNotFound => 'No account found for this email.';
@@ -132,6 +146,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authErrorGoogleCancelled => 'Google sign-in was cancelled.';
+
+  @override
+  String get authErrorGoogleSetup =>
+      'Google sign-in is not configured for this Android app. Enable Google in Firebase Authentication and register this app\'s SHA certificate fingerprints.';
 
   @override
   String get authFirebaseWebSetup =>
@@ -1127,7 +1145,33 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profilePersonalSavedSnack =>
-      'Profile details saved on this device.';
+      'Profile details saved to your account.';
+
+  @override
+  String get profilePersonalLoadError =>
+      'We couldn\'t load your profile. Check your connection and try again.';
+
+  @override
+  String get profilePersonalSaveError =>
+      'We couldn\'t save your profile. Please try again.';
+
+  @override
+  String get profileFirebasePermissionError =>
+      'Firebase denied access to your profile. Deploy the repository\'s firestore.rules to this Firebase project, then sign in again.';
+
+  @override
+  String get profileFirebaseDatabaseError =>
+      'Firestore is not ready for this project. Create a Cloud Firestore database in Firebase Console, then try again.';
+
+  @override
+  String get profileFirebaseNetworkError =>
+      'Firestore is unavailable. Check your internet connection and try again.';
+
+  @override
+  String get profilePersonalNameRequired => 'Please enter your name.';
+
+  @override
+  String get profilePersonalRetryCta => 'Try again';
 
   @override
   String get profileNotificationsSubtitle =>

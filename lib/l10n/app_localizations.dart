@@ -128,6 +128,24 @@ abstract class AppLocalizations {
   /// **'Educational simulation for prescribing Digital Health Applications (not a clinical tool).'**
   String get loginSubtitle;
 
+  /// No description provided for @loginAudienceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'DIGITAL HEALTH LEARNING'**
+  String get loginAudienceLabel;
+
+  /// No description provided for @loginWelcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back'**
+  String get loginWelcome;
+
+  /// No description provided for @loginFormSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue your learning journey with Digital Health Applications.'**
+  String get loginFormSubtitle;
+
   /// No description provided for @loginContinueDemo.
   ///
   /// In en, this message translates to:
@@ -293,8 +311,14 @@ abstract class AppLocalizations {
   /// No description provided for @authErrorWrongPassword.
   ///
   /// In en, this message translates to:
-  /// **'Incorrect email or password.'**
+  /// **'We couldn\'t sign you in with those details. Please check your email and password, then try again.'**
   String get authErrorWrongPassword;
+
+  /// No description provided for @authSignInSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed in successfully. Welcome back.'**
+  String get authSignInSuccess;
 
   /// No description provided for @authErrorUserNotFound.
   ///
@@ -331,6 +355,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Google sign-in was cancelled.'**
   String get authErrorGoogleCancelled;
+
+  /// No description provided for @authErrorGoogleSetup.
+  ///
+  /// In en, this message translates to:
+  /// **'Google sign-in is not configured for this Android app. Enable Google in Firebase Authentication and register this app\'s SHA certificate fingerprints.'**
+  String get authErrorGoogleSetup;
 
   /// No description provided for @authFirebaseWebSetup.
   ///
@@ -2069,8 +2099,50 @@ abstract class AppLocalizations {
   /// No description provided for @profilePersonalSavedSnack.
   ///
   /// In en, this message translates to:
-  /// **'Profile details saved on this device.'**
+  /// **'Profile details saved to your account.'**
   String get profilePersonalSavedSnack;
+
+  /// No description provided for @profilePersonalLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t load your profile. Check your connection and try again.'**
+  String get profilePersonalLoadError;
+
+  /// No description provided for @profilePersonalSaveError.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t save your profile. Please try again.'**
+  String get profilePersonalSaveError;
+
+  /// No description provided for @profileFirebasePermissionError.
+  ///
+  /// In en, this message translates to:
+  /// **'Firebase denied access to your profile. Deploy the repository\'s firestore.rules to this Firebase project, then sign in again.'**
+  String get profileFirebasePermissionError;
+
+  /// No description provided for @profileFirebaseDatabaseError.
+  ///
+  /// In en, this message translates to:
+  /// **'Firestore is not ready for this project. Create a Cloud Firestore database in Firebase Console, then try again.'**
+  String get profileFirebaseDatabaseError;
+
+  /// No description provided for @profileFirebaseNetworkError.
+  ///
+  /// In en, this message translates to:
+  /// **'Firestore is unavailable. Check your internet connection and try again.'**
+  String get profileFirebaseNetworkError;
+
+  /// No description provided for @profilePersonalNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your name.'**
+  String get profilePersonalNameRequired;
+
+  /// No description provided for @profilePersonalRetryCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get profilePersonalRetryCta;
 
   /// No description provided for @profileNotificationsSubtitle.
   ///

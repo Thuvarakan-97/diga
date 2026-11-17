@@ -12,7 +12,20 @@
           "package_name": "com.diga.digaapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "316098402821-dgl0khdjlnqmgnqsmtvsg68dr0pa6d9r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.diga.digaapp",
+            "certificate_hash": "ae598e2841798b8d95f3a77283b64dc0f3ea0893"
+          }
+        },
+        {
+          "client_id": "316098402821-n8v78hllof8n2sr88lu54unk761n7s62.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDDDX0ygt4a_BiYcBMjAHW4VzDkdDyMDno"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "316098402821-n8v78hllof8n2sr88lu54unk761n7s62.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

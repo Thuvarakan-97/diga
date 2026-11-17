@@ -25,6 +25,16 @@ class AppLocalizationsDe extends AppLocalizations {
       'Bildungssimulation zur Verordnung von Digitalen Gesundheitsanwendungen (DiGA) – kein klinisches Werkzeug.';
 
   @override
+  String get loginAudienceLabel => 'DIGITALE GESUNDHEITSANWENDUNGEN';
+
+  @override
+  String get loginWelcome => 'Willkommen zurück';
+
+  @override
+  String get loginFormSubtitle =>
+      'Setzen Sie Ihre Lernreise zu Digitalen Gesundheitsanwendungen fort.';
+
+  @override
   String get loginContinueDemo => 'Weiter (Demo)';
 
   @override
@@ -114,7 +124,11 @@ class AppLocalizationsDe extends AppLocalizations {
       'Diese E-Mail ist bereits registriert. Bitte anmelden.';
 
   @override
-  String get authErrorWrongPassword => 'E-Mail oder Passwort ist falsch.';
+  String get authErrorWrongPassword =>
+      'Die Anmeldung war mit diesen Angaben nicht möglich. Bitte prüfen Sie Ihre E-Mail-Adresse und Ihr Passwort und versuchen Sie es erneut.';
+
+  @override
+  String get authSignInSuccess => 'Sie sind angemeldet. Willkommen zurück.';
 
   @override
   String get authErrorUserNotFound => 'Kein Konto mit dieser E-Mail gefunden.';
@@ -137,6 +151,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get authErrorGoogleCancelled => 'Google-Anmeldung abgebrochen.';
+
+  @override
+  String get authErrorGoogleSetup =>
+      'Google-Anmeldung ist für diese Android-App nicht eingerichtet. Aktivieren Sie Google in Firebase Authentication und registrieren Sie die SHA-Zertifikatsfingerabdrücke dieser App.';
 
   @override
   String get authFirebaseWebSetup =>
@@ -1136,7 +1154,33 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get profilePersonalSavedSnack =>
-      'Profildaten auf diesem Gerät gespeichert.';
+      'Profildaten wurden in Ihrem Konto gespeichert.';
+
+  @override
+  String get profilePersonalLoadError =>
+      'Ihr Profil konnte nicht geladen werden. Bitte prüfen Sie Ihre Verbindung und versuchen Sie es erneut.';
+
+  @override
+  String get profilePersonalSaveError =>
+      'Ihr Profil konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.';
+
+  @override
+  String get profileFirebasePermissionError =>
+      'Firebase hat den Zugriff auf Ihr Profil verweigert. Veröffentlichen Sie firestore.rules aus dem Repository für dieses Firebase-Projekt und melden Sie sich erneut an.';
+
+  @override
+  String get profileFirebaseDatabaseError =>
+      'Firestore ist für dieses Projekt nicht eingerichtet. Erstellen Sie in der Firebase Console eine Cloud-Firestore-Datenbank und versuchen Sie es erneut.';
+
+  @override
+  String get profileFirebaseNetworkError =>
+      'Firestore ist nicht erreichbar. Prüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.';
+
+  @override
+  String get profilePersonalNameRequired => 'Bitte geben Sie Ihren Namen ein.';
+
+  @override
+  String get profilePersonalRetryCta => 'Erneut versuchen';
 
   @override
   String get profileNotificationsSubtitle =>

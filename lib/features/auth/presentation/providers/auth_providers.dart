@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../shared/models/user_profile.dart';
 import '../../data/repositories/auth_repository_impl.dart';
 import '../../domain/repositories/auth_repository.dart';
 
@@ -31,7 +32,8 @@ final authSessionStatusProvider = Provider<AuthSessionStatus>((ref) {
   final auth = ref.watch(firebaseAuthStateProvider);
   return auth.when(
     loading: () => AuthSessionStatus.loading,
-    data: (user) => user != null ? AuthSessionStatus.authed : AuthSessionStatus.guest,
+    data: (user) =>
+        user != null ? AuthSessionStatus.authed : AuthSessionStatus.guest,
     error: (error, stackTrace) => AuthSessionStatus.guest,
   );
 });
@@ -49,6 +51,11 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
 
 class _NoopAuthRepository implements AuthRepository {
   @override
+  Future<UserProfile?> getCurrentUserProfile() async {
+    throw UnsupportedError('Firebase is not available on this platform.');
+  }
+
+  @override
   Future<void> registerWithEmailAndPassword({
     required String email,
     required String password,
@@ -63,12 +70,25 @@ class _NoopAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<void> signInWithEmailAndPassword({required String email, required String password}) async {
+  Future<void> signInWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
     throw UnsupportedError('Firebase is not available on this platform.');
   }
 
   @override
   Future<void> signInWithGoogle() async {
+    throw UnsupportedError('Firebase is not available on this platform.');
+  }
+
+  @override
+  Future<void> updateCurrentUserProfile({
+    required String displayName,
+    required String medicalSpecialty,
+    required String institution,
+    required String licenseNumber,
+  }) async {
     throw UnsupportedError('Firebase is not available on this platform.');
   }
 

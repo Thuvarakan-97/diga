@@ -1,4 +1,5 @@
 import 'package:diga/core/constants/app_routes.dart';
+import 'package:diga/core/constants/app_keys.dart';
 import 'package:diga/core/theme/app_colors.dart';
 import 'package:diga/core/theme/app_radii.dart';
 import 'package:diga/core/theme/app_spacing.dart';
@@ -11,6 +12,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../firebase_options.dart';
@@ -42,20 +44,50 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     setState(() => _busy = true);
     try {
       await action();
+      appScaffoldMessengerKey.currentState?.showSnackBar(
+        SnackBar(
+          backgroundColor: AppColors.success,
+          behavior: SnackBarBehavior.floating,
+          content: Row(
+            children: [
+              const Icon(
+                Icons.check_circle_outline_rounded,
+                color: Colors.white,
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              Expanded(child: Text(l10n.authSignInSuccess)),
+            ],
+          ),
+        ),
+      );
       if (mounted) context.go(AppRoutes.home);
     } on FirebaseAuthException catch (e) {
       if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(authErrorMessage(e, l10n))));
+      }
+    } on PlatformException catch (e, stackTrace) {
+      if (kDebugMode) debugPrint('Google sign-in failed: $e\n$stackTrace');
+      if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(authErrorMessage(e, l10n))),
+          SnackBar(content: Text(authPlatformErrorMessage(e, l10n))),
         );
       }
     } on UnsupportedError catch (_) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.demoContinueButton)));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.demoContinueButton)));
       }
-    } catch (_) {
+    } catch (error, stackTrace) {
+      if (kDebugMode) {
+        debugPrint('Sign-in follow-up failed: $error\n$stackTrace');
+      }
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.authErrorGeneric)));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.authErrorGeneric)));
       }
     } finally {
       if (mounted) setState(() => _busy = false);
@@ -65,7 +97,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
     await _runAuth(
-      () => ref.read(authRepositoryProvider).signInWithEmailAndPassword(
+      () => ref
+          .read(authRepositoryProvider)
+          .signInWithEmailAndPassword(
             email: _email.text,
             password: _password.text,
           ),
@@ -99,7 +133,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           ),
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(MaterialLocalizations.of(ctx).cancelButtonLabel)),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text(MaterialLocalizations.of(ctx).cancelButtonLabel),
+          ),
           FilledButton(
             onPressed: () {
               if (formKey.currentState!.validate()) Navigator.pop(ctx, true);
@@ -111,23 +148,31 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
     if (sent != true || !mounted) return;
     try {
-      await ref.read(authRepositoryProvider).sendPasswordResetEmail(emailCtrl.text);
+      await ref
+          .read(authRepositoryProvider)
+          .sendPasswordResetEmail(emailCtrl.text);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.authResetSent)));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.authResetSent)));
       }
     } on FirebaseAuthException catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(authErrorMessage(e, l10n))),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(authErrorMessage(e, l10n))));
       }
     } on UnsupportedError catch (_) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.demoContinueButton)));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.demoContinueButton)));
       }
     } catch (_) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.authErrorGeneric)));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.authErrorGeneric)));
       }
     }
   }
@@ -146,15 +191,58 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              l10n.loginTitle,
-              style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryContainer,
+                    borderRadius: BorderRadius.circular(AppRadii.md),
+                  ),
+                  child: const Icon(
+                    Icons.health_and_safety_rounded,
+                    color: AppColors.primary,
+                    size: 26,
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.md),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.loginAudienceLabel,
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          color: AppColors.accent,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 0.8,
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.xxs),
+                      Text(
+                        l10n.loginWelcome,
+                        style: theme.textTheme.headlineSmall?.copyWith(
+                          color: AppColors.primaryDark,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: -0.5,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: AppSpacing.xxs),
+            const SizedBox(height: AppSpacing.sm),
             Text(
-              l10n.authSignInCta,
-              style: theme.textTheme.bodySmall?.copyWith(color: AppColors.textMuted),
+              l10n.loginFormSubtitle,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: AppColors.textMuted,
+                height: 1.5,
+              ),
             ),
+            const SizedBox(height: AppSpacing.md),
             if (kIsWeb && !firebaseReady) ...[
               const SizedBox(height: AppSpacing.md),
               Container(
@@ -162,10 +250,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 decoration: BoxDecoration(
                   color: AppColors.warningSoft,
                   borderRadius: BorderRadius.circular(AppRadii.sm),
-                  border: Border.all(color: AppColors.warning.withValues(alpha: 0.35)),
+                  border: Border.all(
+                    color: AppColors.warning.withValues(alpha: 0.35),
+                  ),
                 ),
                 child: Text(
-                  DefaultFirebaseOptions.isWebConfigured ? l10n.authErrorGeneric : l10n.authFirebaseWebSetup,
+                  DefaultFirebaseOptions.isWebConfigured
+                      ? l10n.authErrorGeneric
+                      : l10n.authFirebaseWebSetup,
                   style: theme.textTheme.bodySmall?.copyWith(height: 1.4),
                 ),
               ),
@@ -196,11 +288,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               validator: (v) => InputValidators.password(v, l10n),
               suffix: IconButton(
                 icon: Icon(
-                  _obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                  _obscurePassword
+                      ? Icons.visibility_outlined
+                      : Icons.visibility_off_outlined,
                   size: 20,
                   color: AppColors.textMuted,
                 ),
-                onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                onPressed: () =>
+                    setState(() => _obscurePassword = !_obscurePassword),
               ),
             ),
             const SizedBox(height: AppSpacing.xs),
@@ -222,10 +317,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 backgroundColor: AppColors.primary,
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadii.md)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppRadii.md),
+                ),
                 elevation: 0,
               ),
-              child: Text(l10n.authSignInCta, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
+              child: Text(
+                l10n.authSignInCta,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16,
+                ),
+              ),
             ),
             if (showDemo) ...[
               const SizedBox(height: AppSpacing.sm),

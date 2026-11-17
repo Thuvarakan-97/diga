@@ -8,6 +8,7 @@ class UserProfile {
     this.displayName,
     this.medicalSpecialty,
     this.institution,
+    this.licenseNumber,
     this.preferredLocale,
     required this.createdAt,
     required this.updatedAt,
@@ -18,6 +19,7 @@ class UserProfile {
   final String? displayName;
   final String? medicalSpecialty;
   final String? institution;
+  final String? licenseNumber;
 
   /// BCP-47 tag, e.g. `de` — UI can localize later from this default.
   final String? preferredLocale;
@@ -31,6 +33,7 @@ class UserProfile {
       displayName: readStringOrNull(json, 'displayName'),
       medicalSpecialty: readStringOrNull(json, 'medicalSpecialty'),
       institution: readStringOrNull(json, 'institution'),
+      licenseNumber: readStringOrNull(json, 'licenseNumber'),
       preferredLocale: readStringOrNull(json, 'preferredLocale'),
       createdAt: readDateTime(json, 'createdAt'),
       updatedAt: readDateTime(json, 'updatedAt'),
@@ -38,15 +41,16 @@ class UserProfile {
   }
 
   Map<String, dynamic> toJson() => {
-        'uid': uid,
-        'email': email,
-        if (displayName != null) 'displayName': displayName,
-        if (medicalSpecialty != null) 'medicalSpecialty': medicalSpecialty,
-        if (institution != null) 'institution': institution,
-        if (preferredLocale != null) 'preferredLocale': preferredLocale,
-        'createdAt': createdAt.toUtc().toIso8601String(),
-        'updatedAt': updatedAt.toUtc().toIso8601String(),
-      };
+    'uid': uid,
+    'email': email,
+    if (displayName != null) 'displayName': displayName,
+    if (medicalSpecialty != null) 'medicalSpecialty': medicalSpecialty,
+    if (institution != null) 'institution': institution,
+    if (licenseNumber != null) 'licenseNumber': licenseNumber,
+    if (preferredLocale != null) 'preferredLocale': preferredLocale,
+    'createdAt': createdAt.toUtc().toIso8601String(),
+    'updatedAt': updatedAt.toUtc().toIso8601String(),
+  };
 
   UserProfile copyWith({
     String? uid,
@@ -54,6 +58,7 @@ class UserProfile {
     String? displayName,
     String? medicalSpecialty,
     String? institution,
+    String? licenseNumber,
     String? preferredLocale,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -64,6 +69,7 @@ class UserProfile {
       displayName: displayName ?? this.displayName,
       medicalSpecialty: medicalSpecialty ?? this.medicalSpecialty,
       institution: institution ?? this.institution,
+      licenseNumber: licenseNumber ?? this.licenseNumber,
       preferredLocale: preferredLocale ?? this.preferredLocale,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
